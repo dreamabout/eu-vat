@@ -76,6 +76,24 @@ docker compose exec app bin/regenerate-rates --fixture=…  # replay canned XML,
 `--check` hashes `countries` + `territorial_observed` only, so the `generated_at` timestamp does
 not produce an empty commit every night.
 
+## How it stays current
+
+A scheduled GitHub Action runs `--check` nightly. Exit codes are the contract:
+
+| Code | Meaning | What the job does |
+|---|---|---|
+| 0 | No rate changed | Nothing. Silence is correct here |
+| 1 | Rates changed | Regenerate, verify the snapshot loads, commit, tag a patch release, notify |
+| 2 | **The run failed** | Fail loudly and notify |
+
+Code 2 is separate from code 1 on purpose. A job that only speaks when rates change is
+indistinguishable from a job that died six months ago — silence means the same thing in both
+cases. So an unreachable TEDB, a SOAP fault, an unparseable response, or a territory nobody has
+curated all announce themselves.
+
+Set the `SLACK_WEBHOOK_URL` repository secret to receive those notifications. Without it the job
+still runs and still fails correctly; it just has nowhere to shout.
+
 ## Development
 
 All commands run inside the Docker `app` service — the same idiom as kaikei.

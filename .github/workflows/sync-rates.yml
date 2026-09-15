@@ -1,0 +1,133 @@
+name: Sync VAT rates
+
+# The snapshot maintains itself. A change to any member state's rates produces a commit and a
+# patch release, so the git history IS the audit trail of European VAT changes.
+#
+# Note what this job does on FAILURE. A job that only speaks when rates change is
+# indistinguishable from a job that has been dead for six months: silence means the same thing
+# in both cases. So a failed sync — TEDB unreachable, a SOAP fault, an unparseable response, a
+# territory nobody has curated — is announced just as loudly as a change.
+
+on:
+  schedule:
+    # 03:17 UTC. Deliberately not on the hour: TEDB is a public service and every scheduled job
+    # in the world fires at :00.
+    - cron: '17 3 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    # Job-level, deliberately: a step's own `env:` block is NOT in scope for that step's `if:`,
+    # so declaring it here is what makes the "skip if unconfigured" conditions work at all.
+    env:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: bcmath, dom, simplexml
+          coverage: none
+
+      - name: Install dependencies
+        run: composer install --no-dev --no-interaction --no-progress
+
+      - name: Check for rate changes
+        id: check
+        run: |
+          set +e
+          OUTPUT=$(bin/regenerate-rates --check 2>&1)
+          STATUS=$?
+          set -e
+
+          echo "$OUTPUT"
+          {
+            echo 'output<<TEDB_EOF'
+            echo "$OUTPUT"
+            echo 'TEDB_EOF'
+          } >> "$GITHUB_OUTPUT"
+          echo "status=$STATUS" >> "$GITHUB_OUTPUT"
+
+          # 0 unchanged, 1 changed, 2 failed. Only 2 stops the job here; 1 is the happy path
+          # for "there is work to do".
+          if [ "$STATUS" -eq 2 ]; then
+            echo "::error::VAT rate sync FAILED"
+            exit 1
+          fi
+
+      - name: Regenerate the snapshot
+        if: steps.check.outputs.status == '1'
+        run: bin/regenerate-rates || [ $? -eq 1 ]
+
+      - name: Verify the new snapshot still loads
+        if: steps.check.outputs.status == '1'
+        # A snapshot that parses but cannot be read back is worse than no snapshot: it would be
+        # committed, released, and fail inside a consumer instead of here.
+        run: |
+          php -r '
+            require "vendor/autoload.php";
+            $rates = Kaikei\EuVat\VatRates::fromSnapshot();
+            $countries = $rates->countries();
+            if (count($countries) < 27) {
+                fwrite(STDERR, "Expected 27 member states, got " . count($countries) . "\n");
+                exit(1);
+            }
+            foreach ($countries as $country) {
+                $rates->standardRate($country, new DateTimeImmutable("today"));
+            }
+            echo "Snapshot verified: ", count($countries), " member states resolve a current rate\n";
+          '
+
+      - name: Commit and tag
+        if: steps.check.outputs.status == '1'
+        id: release
+        run: |
+          git config user.name  'eu-vat sync'
+          git config user.email 'actions@github.com'
+
+          CHANGED=$(printf '%s\n' "${{ steps.check.outputs.output }}" | grep -E '^\s+(changed|removed):' | sed 's/^ *//' || true)
+
+          git add data/rates.json
+          git commit -m "chore(rates): sync VAT rates from TEDB" -m "${CHANGED:-Rates changed.}"
+
+          LATEST=$(git tag --list 'v*' --sort=-v:refname | head -n1)
+          LATEST=${LATEST:-v0.0.0}
+          MAJOR=$(echo "${LATEST#v}" | cut -d. -f1)
+          MINOR=$(echo "${LATEST#v}" | cut -d. -f2)
+          PATCH=$(echo "${LATEST#v}" | cut -d. -f3)
+          NEXT="v${MAJOR}.${MINOR}.$((PATCH + 1))"
+
+          git tag -a "$NEXT" -m "VAT rate sync: ${CHANGED:-rates changed}"
+          git push origin HEAD:${{ github.ref_name }} --follow-tags
+
+          echo "tag=$NEXT" >> "$GITHUB_OUTPUT"
+          {
+            echo 'changed<<CHANGED_EOF'
+            echo "${CHANGED:-Rates changed.}"
+            echo 'CHANGED_EOF'
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Announce the change
+        if: steps.check.outputs.status == '1' && env.SLACK_WEBHOOK_URL != ''
+        run: |
+          TEXT=$(printf 'EU VAT rates changed — kaikei/eu-vat %s released.\n%s\n\nConsumers pick this up on the next composer update.' \
+            '${{ steps.release.outputs.tag }}' '${{ steps.release.outputs.changed }}')
+          jq -n --arg text "$TEXT" '{text: $text}' | curl -sS -X POST -H 'Content-Type: application/json' -d @- "$SLACK_WEBHOOK_URL"
+
+      # The half that matters most. Without it, a broken sync is silent, and silence is exactly
+      # what "no rate changed" looks like.
+      - name: Announce a failure
+        if: failure() && env.SLACK_WEBHOOK_URL != ''
+        run: |
+          TEXT=$(printf 'kaikei/eu-vat: the nightly VAT rate sync FAILED.\n\nThe rate snapshot is now going stale, and every consumer checking rates against it is checking against old data.\n\n%s' \
+            '${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}')
+          jq -n --arg text "$TEXT" '{text: $text}' | curl -sS -X POST -H 'Content-Type: application/json' -d @- "$SLACK_WEBHOOK_URL"

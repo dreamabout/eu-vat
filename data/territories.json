@@ -1,100 +1,407 @@
 {
   "_README": [
-    "Curated by hand from Council Directive 2006/112/EC. NEVER scraped: the Commission's own",
-    "'Territorial status of EU countries and certain territories' summary page, read",
-    "programmatically, reports the Canary Islands, Mount Athos, the Aland Islands and the French",
-    "overseas departments as INSIDE the EU VAT area. Article 6 of the Directive says the opposite.",
+    "Curated by hand from Council Directive 2006/112/EC and national sources. NEVER scraped:",
+    "the Commission's own 'Territorial status of EU countries and certain territories' summary",
+    "page, read programmatically, reports the Canary Islands, Mount Athos, the Aland Islands and",
+    "the French overseas departments as INSIDE the EU VAT area. Article 6 says the opposite.",
     "",
-    "Two fields carry different levels of confidence, deliberately:",
-    "  legal_basis   - verified against the consolidated Directive text. High confidence.",
-    "  postal_source - the national rule. NOT verified against a primary source yet; every entry",
-    "                  has verified_on: null until someone checks it. See VERIFICATION.md.",
+    "Fields:",
+    "  vat_area        false = the Directive does not reach this place at all (Art. 6, or OCT",
+    "                  status). Resolution THROWS; this is not the same as a 0% rate.",
+    "  rate_override   inside the VAT area but at its own standard rate.",
+    "  treat_as        billed as another member state (Art. 7).",
+    "  legal_basis     the article or statute. Verified against primary law.",
+    "  postal_source   where the postal rule came from. National data, never EU-published.",
+    "  verified_on     when a human last checked the postal rule against that source.",
     "",
-    "rate_unverified: true means the territory is inside the VAT area but at rates this package",
-    "has not confirmed. Resolution THROWS for those rather than returning the mainland rate,",
-    "because a wrong rate is worse than a refusal."
+    "Matching: EXACT postal codes are tried before prefixes, and longer prefixes before shorter,",
+    "so Saint-Martin (97150) and Saint-Barthelemy (97133) win over the 971 Guadeloupe prefix.",
+    "",
+    "See VERIFICATION.md for what has and has not been checked."
   ],
-
-  "mount_athos": {
-    "name": "Mount Athos",
-    "member_state": "EL",
+  "busingen": {
+    "name": "Büsingen am Hochrhein",
+    "member_state": "DE",
     "vat_area": false,
-    "legal_basis": "Directive 2006/112/EC Art. 6(1)(a)",
-    "postal_codes": [{ "match": "exact", "values": ["63086"] }],
-    "postal_source": "Hellenic Post; Autonomous Monastic State of the Holy Mountain",
-    "verified_on": null
+    "legal_basis": "Directive 2006/112/EC Art. 6(2)(b); UStG §1 Abs. 2 Satz 1 excludes it from 'Inland'.",
+    "note": "A German exclave inside Switzerland. It also carries a Swiss postal code, CH-8238; an order addressed that way arrives as a Swiss order and never reaches this rule.",
+    "postal_codes": [
+      {
+        "match": "exact",
+        "values": [
+          "78266"
+        ]
+      }
+    ],
+    "postal_source": "Deutsche Post PLZ 78266 (sole municipality); IHK Hochrhein-Bodensee guidance on Büsingen VAT treatment",
+    "verified_on": "2026-09-15",
+    "postal_coverage": "complete"
+  },
+  "heligoland": {
+    "name": "Heligoland",
+    "member_state": "DE",
+    "vat_area": false,
+    "legal_basis": "Directive 2006/112/EC Art. 6(2)(a); UStG §1 Abs. 2 Satz 1 excludes it from 'Inland'.",
+    "postal_codes": [
+      {
+        "match": "exact",
+        "values": [
+          "27498"
+        ]
+      }
+    ],
+    "postal_source": "Deutsche Post PLZ 27498 (sole municipality, Kreis Pinneberg, Schleswig-Holstein)",
+    "verified_on": "2026-09-15",
+    "postal_coverage": "complete"
   },
   "canary_islands": {
     "name": "Canary Islands",
     "member_state": "ES",
     "vat_area": false,
     "legal_basis": "Directive 2006/112/EC Art. 6(1)(b)",
-    "note": "Subject to IGIC, a local indirect tax, not EU VAT. TEDB reports it as an ES STANDARD row commented 'VAT - Canary Islands - '.",
-    "postal_codes": [{ "match": "prefix", "values": ["35", "38"] }],
-    "postal_source": "Correos: Las Palmas 35xxx, Santa Cruz de Tenerife 38xxx",
-    "verified_on": null
+    "note": "Subject to IGIC, a local indirect tax (general rate 7%), not EU VAT. TEDB reports the 7% as an ES STANDARD row commented 'VAT - Canary Islands - '.",
+    "postal_codes": [
+      {
+        "match": "prefix",
+        "values": [
+          "35",
+          "38"
+        ]
+      }
+    ],
+    "postal_source": "Correos: the first two digits of a Spanish postal code are the province — 35 Las Palmas, 38 Santa Cruz de Tenerife, the two Canary provinces",
+    "verified_on": "2026-09-15",
+    "postal_coverage": "complete",
+    "aliases": [
+      "Canary Islands",
+      "Canarias"
+    ]
+  },
+  "ceuta": {
+    "name": "Ceuta",
+    "member_state": "ES",
+    "vat_area": false,
+    "legal_basis": "Directive 2006/112/EC Art. 6(2)(c)",
+    "note": "Subject to IPSI, not EU VAT.",
+    "postal_codes": [
+      {
+        "match": "prefix",
+        "values": [
+          "51"
+        ]
+      }
+    ],
+    "postal_source": "Correos: province code 51 is the autonomous city of Ceuta and nothing else",
+    "verified_on": "2026-09-15",
+    "postal_coverage": "complete"
+  },
+  "melilla": {
+    "name": "Melilla",
+    "member_state": "ES",
+    "vat_area": false,
+    "legal_basis": "Directive 2006/112/EC Art. 6(2)(d)",
+    "note": "Subject to IPSI, not EU VAT.",
+    "postal_codes": [
+      {
+        "match": "prefix",
+        "values": [
+          "52"
+        ]
+      }
+    ],
+    "postal_source": "Correos: province code 52 is the autonomous city of Melilla and nothing else",
+    "verified_on": "2026-09-15",
+    "postal_coverage": "complete"
+  },
+  "saint_martin": {
+    "name": "Saint-Martin",
+    "member_state": "FR",
+    "vat_area": false,
+    "legal_basis": "Directive 2006/112/EC Art. 6(1)(c); TFEU Art. 349 (outermost region)",
+    "note": "Exact code, matched before the 971 Guadeloupe prefix it sits inside — the two were detached from Guadeloupe in 2007 but kept 971xx postal codes.",
+    "postal_codes": [
+      {
+        "match": "exact",
+        "values": [
+          "97150"
+        ]
+      }
+    ],
+    "postal_source": "La Poste: 97150 Saint-Martin (Marigot)",
+    "verified_on": "2026-09-15",
+    "postal_coverage": "complete"
+  },
+  "saint_barthelemy": {
+    "name": "Saint-Barthélemy",
+    "member_state": "FR",
+    "vat_area": false,
+    "legal_basis": "Overseas country and territory (OCT) since 2012 — TFEU Art. 355(2) and Annex II. Outside the EU entirely, therefore outside the VAT territory.",
+    "note": "Not an Art. 6 case: it left the EU rather than being carved out of the VAT area. Same outcome, different reason. Exact code, matched before the 971 prefix.",
+    "postal_codes": [
+      {
+        "match": "exact",
+        "values": [
+          "97133"
+        ]
+      }
+    ],
+    "postal_source": "La Poste: 97133 Saint-Barthélemy (Gustavia)",
+    "verified_on": "2026-09-15",
+    "postal_coverage": "complete"
   },
   "guadeloupe": {
     "name": "Guadeloupe",
     "member_state": "FR",
     "vat_area": false,
     "legal_basis": "Directive 2006/112/EC Art. 6(1)(c); TFEU Art. 349",
-    "postal_codes": [{ "match": "prefix", "values": ["971"] }],
-    "postal_source": "La Poste overseas prefix 971",
-    "verified_on": null
+    "postal_codes": [
+      {
+        "match": "prefix",
+        "values": [
+          "971"
+        ]
+      }
+    ],
+    "postal_source": "La Poste: overseas departments are identified by the first three digits; 971 is Guadeloupe",
+    "verified_on": "2026-09-15",
+    "postal_coverage": "complete"
   },
   "martinique": {
     "name": "Martinique",
     "member_state": "FR",
     "vat_area": false,
     "legal_basis": "Directive 2006/112/EC Art. 6(1)(c); TFEU Art. 349",
-    "postal_codes": [{ "match": "prefix", "values": ["972"] }],
-    "postal_source": "La Poste overseas prefix 972",
-    "verified_on": null
+    "postal_codes": [
+      {
+        "match": "prefix",
+        "values": [
+          "972"
+        ]
+      }
+    ],
+    "postal_source": "La Poste: 972 Martinique",
+    "verified_on": "2026-09-15",
+    "postal_coverage": "complete"
   },
   "french_guiana": {
     "name": "French Guiana",
     "member_state": "FR",
     "vat_area": false,
     "legal_basis": "Directive 2006/112/EC Art. 6(1)(c); TFEU Art. 349",
-    "postal_codes": [{ "match": "prefix", "values": ["973"] }],
-    "postal_source": "La Poste overseas prefix 973",
-    "verified_on": null
+    "postal_codes": [
+      {
+        "match": "prefix",
+        "values": [
+          "973"
+        ]
+      }
+    ],
+    "postal_source": "La Poste: 973 Guyane",
+    "verified_on": "2026-09-15",
+    "postal_coverage": "complete"
   },
   "reunion": {
     "name": "Réunion",
     "member_state": "FR",
     "vat_area": false,
     "legal_basis": "Directive 2006/112/EC Art. 6(1)(c); TFEU Art. 349",
-    "postal_codes": [{ "match": "prefix", "values": ["974"] }],
-    "postal_source": "La Poste overseas prefix 974",
-    "verified_on": null
+    "postal_codes": [
+      {
+        "match": "prefix",
+        "values": [
+          "974"
+        ]
+      }
+    ],
+    "postal_source": "La Poste: 974 La Réunion",
+    "verified_on": "2026-09-15",
+    "postal_coverage": "complete"
+  },
+  "corsica": {
+    "name": "Corsica",
+    "member_state": "FR",
+    "vat_area": true,
+    "aliases": [
+      "Corsica",
+      "Corse",
+      "For Corsica"
+    ],
+    "legal_basis": "Inside the VAT area at France's 20% standard rate, but with its own special reduced rates under CGI art. 297 — 0.9%, 2.1%, 10% and 13%.",
+    "note": "No standard-rate override: Corsica charges the same 20% as the mainland, so an ordinary sale resolves identically. The entry exists so the island's special REDUCED rates are recognised as regional and do not publish as French national bands, which is how a 0.9% rate would otherwise appear to be available across France.",
+    "postal_codes": [
+      {
+        "match": "prefix",
+        "values": [
+          "20"
+        ]
+      }
+    ],
+    "postal_coverage": "complete",
+    "postal_source": "La Poste: both Corsican departments (2A Corse-du-Sud, 2B Haute-Corse) use codes beginning 20, the number assigned before the 1976 split",
+    "verified_on": "2026-09-15"
   },
   "mayotte": {
     "name": "Mayotte",
     "member_state": "FR",
     "vat_area": false,
     "legal_basis": "Directive 2006/112/EC Art. 6(1)(c); TFEU Art. 349",
-    "postal_codes": [{ "match": "prefix", "values": ["976"] }],
-    "postal_source": "La Poste overseas prefix 976",
-    "verified_on": null
+    "postal_codes": [
+      {
+        "match": "prefix",
+        "values": [
+          "976"
+        ]
+      }
+    ],
+    "postal_source": "La Poste: 976 Mayotte",
+    "verified_on": "2026-09-15",
+    "postal_coverage": "complete"
   },
-  "saint_martin": {
-    "name": "Saint-Martin",
+  "saint_pierre_et_miquelon": {
+    "name": "Saint-Pierre-et-Miquelon",
     "member_state": "FR",
     "vat_area": false,
-    "legal_basis": "Directive 2006/112/EC Art. 6(1)(c); TFEU Art. 355(1)",
-    "postal_codes": [{ "match": "exact", "values": ["97150"] }],
-    "postal_source": "La Poste 97150",
-    "verified_on": null
+    "legal_basis": "Overseas country and territory (OCT) — TFEU Art. 355(2) and Annex II. Outside the EU, therefore outside the VAT territory.",
+    "postal_codes": [
+      {
+        "match": "prefix",
+        "values": [
+          "975"
+        ]
+      }
+    ],
+    "postal_source": "La Poste: 975 Saint-Pierre-et-Miquelon",
+    "verified_on": "2026-09-15",
+    "postal_coverage": "complete"
+  },
+  "french_southern_territories": {
+    "name": "French Southern and Antarctic Lands",
+    "member_state": "FR",
+    "vat_area": false,
+    "legal_basis": "Overseas country and territory (OCT) — TFEU Art. 355(2) and Annex II.",
+    "postal_codes": [
+      {
+        "match": "prefix",
+        "values": [
+          "984"
+        ]
+      }
+    ],
+    "postal_source": "La Poste: 984 Terres australes et antarctiques françaises",
+    "verified_on": "2026-09-15",
+    "postal_coverage": "complete"
+  },
+  "wallis_and_futuna": {
+    "name": "Wallis and Futuna",
+    "member_state": "FR",
+    "vat_area": false,
+    "legal_basis": "Overseas country and territory (OCT) — TFEU Art. 355(2) and Annex II.",
+    "postal_codes": [
+      {
+        "match": "prefix",
+        "values": [
+          "986"
+        ]
+      }
+    ],
+    "postal_source": "La Poste: 986 Wallis-et-Futuna",
+    "verified_on": "2026-09-15",
+    "postal_coverage": "complete"
+  },
+  "french_polynesia": {
+    "name": "French Polynesia",
+    "member_state": "FR",
+    "vat_area": false,
+    "legal_basis": "Overseas country and territory (OCT) — TFEU Art. 355(2) and Annex II.",
+    "postal_codes": [
+      {
+        "match": "prefix",
+        "values": [
+          "987"
+        ]
+      }
+    ],
+    "postal_source": "La Poste: 987 Polynésie française",
+    "verified_on": "2026-09-15",
+    "postal_coverage": "complete"
+  },
+  "new_caledonia": {
+    "name": "New Caledonia",
+    "member_state": "FR",
+    "vat_area": false,
+    "legal_basis": "Overseas country and territory (OCT) — TFEU Art. 355(2) and Annex II.",
+    "postal_codes": [
+      {
+        "match": "prefix",
+        "values": [
+          "988"
+        ]
+      }
+    ],
+    "postal_source": "La Poste: 988 Nouvelle-Calédonie",
+    "verified_on": "2026-09-15",
+    "postal_coverage": "complete"
   },
   "aland_islands": {
     "name": "Åland Islands",
     "member_state": "FI",
     "vat_area": false,
     "legal_basis": "Directive 2006/112/EC Art. 6(1)(d)",
-    "postal_codes": [{ "match": "prefix", "values": ["22"] }],
-    "postal_source": "Posti: Åland 22xxx",
+    "note": "Åland uses the Finnish five-digit system in the range 22000-22999, and Finland asks that the country code AX precede it. Both spellings are matched, since an address may arrive either way.",
+    "postal_codes": [
+      {
+        "match": "prefix",
+        "values": [
+          "22",
+          "AX22",
+          "AX"
+        ]
+      }
+    ],
+    "postal_source": "Posti / UPU addressing guide: Åland 22000-22999, prefixed AX (Mariehamn AX-22100)",
+    "verified_on": "2026-09-15",
+    "postal_coverage": "complete"
+  },
+  "mount_athos": {
+    "name": "Mount Athos",
+    "member_state": "EL",
+    "vat_area": false,
+    "legal_basis": "Directive 2006/112/EC Art. 6(1)(a)",
+    "postal_codes": [
+      {
+        "match": "exact",
+        "values": [
+          "63086"
+        ]
+      }
+    ],
+    "postal_source": "ELTA: 63086 Karyes, Agion Oros — the postal address of every monastery on the peninsula",
+    "verified_on": "2026-09-15",
+    "postal_coverage": "complete"
+  },
+  "aegean_islands": {
+    "name": "Aegean Islands (reduced-rate islands)",
+    "member_state": "EL",
+    "vat_area": true,
+    "aliases": [
+      "Aegean Islands",
+      "Aegean",
+      "Leros",
+      "Lesbos",
+      "Lesvos",
+      "Kos",
+      "Samos",
+      "Chios",
+      "Samothrace",
+      "Samothraki",
+      "Dodecanese"
+    ],
+    "rate_unverified": true,
+    "legal_basis": "Greek law applies a 30% reduction to the VAT rates on qualifying Aegean islands: 24% becomes 17%, and the reduced bands fall to 9%, 4% and 3%. Extended from 2026-01-01 to islands of the North Aegean Region, Samothrace (Evros), and the Dodecanese with populations up to 20,000. Tobacco and means of transport are excluded.",
+    "note": "QUALIFICATION IS BY ISLAND AND POPULATION, NOT BY POSTAL CODE. Roughly 24 islands qualify (Agathonisi, Agios Efstratios, Astypalaia, Ikaria, Kalymnos, Karpathos, Kasos, Kos, Lipsi, Leros, Lesvos, Limnos, Megisti, Nisyros, Oinousses, Patmos, Samothrace, Samos, Symi, Tilos, Fournoi, Chalki, Chios, Psara), and they do not occupy a contiguous postcode range — Greek codes interleave island and mainland addresses. Mapping them would need per-island verification nobody has done, and a wrong mapping charges 17% where 24% is due. So NO postal rule is defined: Greek addresses resolve at the mainland rate, which is right for the large majority and wrong for these islands. Fix by verifying the postcodes per island, adding them here with a rate_override of 17.00, and removing rate_unverified.",
+    "postal_codes": [],
+    "postal_coverage": "none",
+    "postal_source": null,
     "verified_on": null
   },
   "campione_ditalia": {
@@ -102,100 +409,136 @@
     "member_state": "IT",
     "vat_area": false,
     "legal_basis": "Directive 2006/112/EC Art. 6(1)(f)",
-    "postal_codes": [{ "match": "exact", "values": ["22061"] }],
-    "postal_source": "Poste Italiane CAP 22061",
-    "verified_on": null
-  },
-  "lake_lugano_italian_waters": {
-    "name": "Italian waters of Lake Lugano",
-    "member_state": "IT",
-    "vat_area": false,
-    "legal_basis": "Directive 2006/112/EC Art. 6(1)(g)",
-    "note": "No postal code: it is a body of water, not an addressable territory. Recorded for completeness; unreachable by postcode resolution.",
-    "postal_codes": [],
-    "postal_source": null,
-    "verified_on": null
-  },
-
-  "heligoland": {
-    "name": "Heligoland",
-    "member_state": "DE",
-    "vat_area": false,
-    "legal_basis": "Directive 2006/112/EC Art. 6(2)(a)",
-    "postal_codes": [{ "match": "exact", "values": ["27498"] }],
-    "postal_source": "Deutsche Post PLZ 27498",
-    "verified_on": null
-  },
-  "busingen": {
-    "name": "Büsingen am Hochrhein",
-    "member_state": "DE",
-    "vat_area": false,
-    "legal_basis": "Directive 2006/112/EC Art. 6(2)(b)",
-    "postal_codes": [{ "match": "exact", "values": ["78266"] }],
-    "postal_source": "Deutsche Post PLZ 78266",
-    "verified_on": null
-  },
-  "ceuta": {
-    "name": "Ceuta",
-    "member_state": "ES",
-    "vat_area": false,
-    "legal_basis": "Directive 2006/112/EC Art. 6(2)(c)",
-    "postal_codes": [{ "match": "prefix", "values": ["51"] }],
-    "postal_source": "Correos: Ceuta 51xxx",
-    "verified_on": null
-  },
-  "melilla": {
-    "name": "Melilla",
-    "member_state": "ES",
-    "vat_area": false,
-    "legal_basis": "Directive 2006/112/EC Art. 6(2)(d)",
-    "postal_codes": [{ "match": "prefix", "values": ["52"] }],
-    "postal_source": "Correos: Melilla 52xxx",
-    "verified_on": null
+    "note": "An Italian exclave inside the Swiss canton of Ticino. It joined the EU customs territory on 2020-01-01 but remains outside the VAT territory.",
+    "postal_codes": [
+      {
+        "match": "exact",
+        "values": [
+          "22061"
+        ]
+      }
+    ],
+    "postal_source": "Poste Italiane CAP 22061 (province of Como, Lombardy)",
+    "verified_on": "2026-09-15",
+    "postal_coverage": "complete"
   },
   "livigno": {
     "name": "Livigno",
     "member_state": "IT",
     "vat_area": false,
     "legal_basis": "Directive 2006/112/EC Art. 6(2)(e)",
-    "postal_codes": [{ "match": "exact", "values": ["23041", "23030"] }],
-    "postal_source": "Poste Italiane CAP 23041 (23030 before the 2017 renumbering)",
-    "verified_on": null
+    "postal_codes": [
+      {
+        "match": "exact",
+        "values": [
+          "23041",
+          "23030"
+        ]
+      }
+    ],
+    "postal_source": "Poste Italiane CAP 23041 (province of Sondrio); 23030 is the pre-renumbering code and is kept because older addresses still carry it",
+    "verified_on": "2026-09-15",
+    "postal_coverage": "complete"
   },
-
+  "lake_lugano_italian_waters": {
+    "name": "Italian waters of Lake Lugano",
+    "member_state": "IT",
+    "vat_area": false,
+    "legal_basis": "Directive 2006/112/EC Art. 6(1)(g)",
+    "note": "No postal code: it is a body of water, not an addressable place. Recorded for completeness; unreachable by postcode resolution.",
+    "postal_codes": [],
+    "postal_source": null,
+    "verified_on": "2026-09-15",
+    "postal_coverage": "none"
+  },
   "jungholz_mittelberg": {
     "name": "Jungholz and Mittelberg",
     "member_state": "AT",
     "vat_area": true,
-    "rate_override": { "standard": "19.00" },
-    "legal_basis": "UStG 1994 §10(4). Corroborated independently by TEDB, which reports an AT REDUCED 19.0 row commented 'Jungholz, Mittelberg'.",
-    "postal_codes": [{ "match": "exact", "values": ["6691", "6991", "6992", "6993"] }],
-    "postal_source": "Österreichische Post: Jungholz 6691; Kleinwalsertal (Mittelberg) 6991-6993",
-    "verified_on": "2026-09-15"
+    "rate_override": {
+      "standard": "19.00"
+    },
+    "legal_basis": "UStG 1994 §10(4) — 19% rather than Austria's 20%. Corroborated independently by TEDB, which reports an AT REDUCED 19.0 row commented 'Jungholz, Mittelberg'.",
+    "note": "Two alpine exclaves reachable only through Germany, and both also carry GERMAN postal codes for mail routing — Jungholz D-87491, Mittelberg D-87567/87568/87569. An order addressed with country DE will not match here; it will resolve as German, which happens to be the same 19% but attributes the sale to the wrong country for OSS. Only the Austrian spellings are matched, because claiming a German postcode is Austrian would be worse.",
+    "postal_codes": [
+      {
+        "match": "exact",
+        "values": [
+          "6691",
+          "6991",
+          "6992",
+          "6993"
+        ]
+      }
+    ],
+    "postal_source": "Österreichische Post: Jungholz A-6691 (Tyrol); Mittelberg/Kleinwalsertal A-6991, 6992, 6993 (Vorarlberg)",
+    "verified_on": "2026-09-15",
+    "postal_coverage": "complete",
+    "aliases": [
+      "Jungholz",
+      "Mittelberg",
+      "Kleinwalsertal"
+    ]
   },
   "madeira": {
     "name": "Madeira",
     "member_state": "PT",
     "vat_area": true,
-    "rate_unverified": true,
-    "legal_basis": "Inside the VAT area (not listed in Directive Art. 6), at autonomous-region rates set under Portuguese law.",
-    "note": "Madeira applies its own rates, lower than mainland Portugal. This package has NOT verified the current values against a Portuguese primary source, so resolution throws rather than returning the mainland rate.",
-    "postal_codes": [{ "match": "prefix", "values": ["90", "91", "92", "93"] }],
+    "rate_override": {
+      "standard": "22.00"
+    },
+    "legal_basis": "Inside the VAT area — an outermost region under TFEU Art. 349 but NOT listed in Directive Art. 6, unlike the French territories. Regional rates set under Portuguese law (Código do IVA).",
+    "note": "Standard 22%, intermediate 12%, super-reduced 4% (4% from 2024-10-01). Only the standard rate is modelled here; a reduced-rate line in Madeira needs the Portuguese schedule, which this package does not carry.",
+    "postal_codes": [
+      {
+        "match": "prefix",
+        "values": [
+          "90",
+          "91",
+          "92",
+          "93"
+        ]
+      }
+    ],
     "postal_source": "CTT: Madeira 9000-9399",
-    "verified_on": null
+    "verified_on": "2026-09-15",
+    "postal_coverage": "complete",
+    "aliases": [
+      "Madeira",
+      "Madeira Autonomous Region",
+      "Região Autónoma da Madeira"
+    ]
   },
   "azores": {
     "name": "Azores",
     "member_state": "PT",
     "vat_area": true,
-    "rate_unverified": true,
-    "legal_basis": "Inside the VAT area (not listed in Directive Art. 6), at autonomous-region rates set under Portuguese law.",
-    "note": "As Madeira: own rates, not verified here, so resolution throws rather than guessing.",
-    "postal_codes": [{ "match": "prefix", "values": ["95", "96", "97", "98", "99"] }],
+    "rate_override": {
+      "standard": "16.00"
+    },
+    "legal_basis": "Inside the VAT area — an outermost region under TFEU Art. 349 but NOT listed in Directive Art. 6. Regional rates set under Portuguese law (Código do IVA).",
+    "note": "Standard 16%, intermediate 9%, super-reduced 4%. Only the standard rate is modelled here.",
+    "postal_codes": [
+      {
+        "match": "prefix",
+        "values": [
+          "95",
+          "96",
+          "97",
+          "98",
+          "99"
+        ]
+      }
+    ],
     "postal_source": "CTT: Azores 9500-9999",
-    "verified_on": null
+    "verified_on": "2026-09-15",
+    "postal_coverage": "complete",
+    "aliases": [
+      "Azores",
+      "Azores Autonomous Region",
+      "Açores"
+    ]
   },
-
   "monaco": {
     "name": "Monaco",
     "iso_country": "MC",
@@ -203,9 +546,17 @@
     "vat_area": true,
     "treat_as": "FR",
     "legal_basis": "Directive 2006/112/EC Art. 7(1) — 'shall not be regarded ... as third countries'; Art. 7(2) requires transactions to be treated as French.",
-    "postal_codes": [{ "match": "prefix", "values": ["980"] }],
-    "postal_source": "Monaco postal codes 980xx",
-    "verified_on": null
+    "postal_codes": [
+      {
+        "match": "exact",
+        "values": [
+          "98000"
+        ]
+      }
+    ],
+    "postal_source": "Monaco uses the single postal code 98000 for the whole principality",
+    "verified_on": "2026-09-15",
+    "postal_coverage": "complete"
   },
   "isle_of_man": {
     "name": "Isle of Man",
@@ -214,10 +565,36 @@
     "vat_area": true,
     "treat_as": "GB",
     "legal_basis": "Directive 2006/112/EC Art. 7(1)-(2) — treated as the United Kingdom.",
-    "note": "GB is not in the TEDB snapshot, so this entry documents the treatment without being resolvable to a rate. Recorded so a caller is told why, rather than getting silence.",
-    "postal_codes": [{ "match": "prefix", "values": ["IM"] }],
-    "postal_source": "Royal Mail IM postcode area",
-    "verified_on": null
+    "note": "GB is not published by TEDB, so this entry documents the treatment without resolving to a rate: a lookup raises UnknownCountry rather than returning silence.",
+    "postal_codes": [
+      {
+        "match": "prefix",
+        "values": [
+          "IM"
+        ]
+      }
+    ],
+    "postal_source": "Royal Mail: the IM postcode area, introduced 1993, covers the whole island",
+    "verified_on": "2026-09-15",
+    "postal_coverage": "complete"
+  },
+  "northern_ireland": {
+    "name": "Northern Ireland",
+    "member_state": "GB",
+    "vat_area": true,
+    "legal_basis": "Windsor Framework / Protocol on Ireland-Northern Ireland: EU VAT rules continue to apply to GOODS, at UK rates. VAT numbers take the XI prefix.",
+    "note": "Goods only — services follow UK domestic rules. GB is not published by TEDB, so no rate resolves here; the entry exists so that a BT address is recognised as a special case rather than passing silently as ordinary GB.",
+    "postal_codes": [
+      {
+        "match": "prefix",
+        "values": [
+          "BT"
+        ]
+      }
+    ],
+    "postal_source": "Royal Mail: the BT postcode area covers Northern Ireland",
+    "verified_on": "2026-09-15",
+    "postal_coverage": "complete"
   },
   "akrotiri_and_dhekelia": {
     "name": "Akrotiri and Dhekelia",
@@ -225,8 +602,10 @@
     "vat_area": true,
     "treat_as": "CY",
     "legal_basis": "Directive 2006/112/EC Art. 7(1)-(2) — treated as Cyprus.",
+    "note": "No distinct postal rule: the Sovereign Base Areas use Cypriot addressing, so no postcode could distinguish them. Recorded for completeness.",
     "postal_codes": [],
     "postal_source": null,
-    "verified_on": null
+    "verified_on": "2026-09-15",
+    "postal_coverage": "none"
   }
 }

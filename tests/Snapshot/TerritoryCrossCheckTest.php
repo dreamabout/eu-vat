@@ -60,6 +60,28 @@ final class TerritoryCrossCheckTest extends TestCase
         self::assertSame([], $this->check()->unrecognisedQualifiers($parsed));
     }
 
+    /**
+     * Regression, and the sharpest lesson in this file. Matching curated territory names against
+     * arbitrary comment text once reclassified the NETHERLANDS' 9% medical-equipment rate as
+     * Corsican — the row enumerates orthopaedic appliances including *corsets*, and "Corse" is a
+     * substring of "corsets". The effect was to silently delete a country's real reduced rate.
+     *
+     * Two defences, and this asserts both: reclassification only ever touches rows TEDB itself
+     * marked regional, and alias matching is word-boundary, not substring.
+     */
+    public function testACategorySpecificRateIsNeverMistakenForARegionalOne(): void
+    {
+        $parsed = (new ResponseParser())->parse(file_get_contents(__DIR__.'/../fixtures/tedb-eu27-current.xml'));
+        $classified = $parsed->classifyTerritories(TerritoryTable::fromFile(__DIR__.'/../../data/territories.json'));
+
+        $dutch = array_values(array_filter(
+            $classified->reducedSamples(),
+            static fn ($s): bool => 'NL' === $s->country,
+        ));
+
+        self::assertContains('9.00', array_map(static fn ($s): string => $s->percent, $dutch), "The Netherlands' 9% reduced rate must survive.");
+    }
+
     public function testAnUnknownTerritoryIsReportedRatherThanIgnored(): void
     {
         $parsed = new ParsedResponse([

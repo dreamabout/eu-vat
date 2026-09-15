@@ -33,13 +33,25 @@ final class RateSample
          * "Import only". Only the curated territory table can tell those apart.
          */
         public readonly ?string $comment = null,
+        /**
+         * TEDB's own category identifier. `REGION` is the one that matters here: it is a
+         * STRUCTURED marker for a rate that applies to part of a member state rather than all
+         * of it, and it is far more trustworthy than reading the free-text comment.
+         */
+        public readonly ?string $category = null,
     ) {
+    }
+
+    /** A rate applying to a region rather than the whole member state. */
+    public function isRegional(): bool
+    {
+        return 'REGION' === $this->category;
     }
 
     /** The same sample, reclassified as naming a territory. */
     public function asQualified(string $qualifier): self
     {
-        return new self($this->country, $this->rateClass, $this->percent, $this->date, $qualifier, $this->comment);
+        return new self($this->country, $this->rateClass, $this->percent, $this->date, $qualifier, $this->comment, $this->category);
     }
 
     public function isQualified(): bool

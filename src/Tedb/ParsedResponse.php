@@ -32,26 +32,28 @@ final class ParsedResponse
     /**
      * Reclassifies samples whose comment names a curated territory.
      *
-     * The shape rule in {@see ResponseParser} catches "VAT - Canary Islands - " but not
-     * Austria's bare "Jungholz, Mittelberg", which looks exactly like a category note such as
-     * "Import only". Left unclassified, Jungholz's 19% is published as though Austria had a 19%
-     * reduced band for everyone — a wrong rate, presented as fact, for a country that does not
-     * have one.
-     *
-     * Matching is conservative: a comment must name the territory, not merely mention it, so a
-     * paragraph of legal prose that happens to contain "Madeira" does not reclassify anything.
+     * This is cosmetic, not structural: TEDB's `category = REGION` marker has already
+     * identified which rows are regional, and the parser has already set a qualifier from the
+     * comment. All this does is replace TEDB's wording ("Azores Autonomous Region", "For
+     * Corsica") with the curated name, so the snapshot reads consistently.
      */
     public function classifyTerritories(TerritoryTable $territories): self
     {
         $classified = [];
         foreach ($this->samples as $sample) {
-            if ($sample->isQualified() || null === $sample->comment) {
+            // ONLY already-qualified rows are considered. TEDB's own `category = REGION` marker
+            // identifies a regional rate structurally, so there is nothing to infer here — and
+            // inferring is actively dangerous. Matching curated names against arbitrary comments
+            // once reclassified the Netherlands' 9% medical-equipment rate as Corsican, because
+            // the row lists orthopaedic *corsets* and "Corse" is a substring of "corsets". That
+            // silently deletes a country's real reduced rate.
+            if (!$sample->isQualified() || null === $sample->comment) {
                 $classified[] = $sample;
 
                 continue;
             }
 
-            $territory = $territories->territoryNamedIn($sample->comment);
+            $territory = $territories->territoryNamedIn((string) $sample->qualifier);
             $classified[] = null === $territory ? $sample : $sample->asQualified($territory->name);
         }
 
@@ -76,7 +78,7 @@ final class ParsedResponse
         ));
     }
 
-    /** @return list<RateSample> rows naming a territory or special scheme */
+    /** @return list<RateSample> rows naming a territory, region or special scheme */
     public function qualifierSamples(): array
     {
         return array_values(array_filter($this->samples, static fn (RateSample $s): bool => $s->isQualified()));

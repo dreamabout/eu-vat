@@ -24,6 +24,7 @@ namespace Kaikei\EuVat\Territory;
 final class Territory
 {
     /**
+     * @param list<string>                                     $aliases
      * @param list<array{match: string, values: list<string>}> $postalRules
      */
     public function __construct(
@@ -36,28 +37,55 @@ final class Territory
         public readonly ?string $treatAs,
         public readonly bool $rateUnverified,
         public readonly string $legalBasis,
+        /** Names TEDB may use for this place, matched as substrings of its comments. */
+        public readonly array $aliases,
         public readonly array $postalRules,
+        /** 'complete' | 'partial' | 'none' — declared, so a gap cannot hide as an absence. */
+        public readonly string $postalCoverage,
         public readonly ?string $verifiedOn,
     ) {
     }
 
-    public function matchesPostalCode(string $normalisedPostalCode): bool
+    /** An exact-code hit, which outranks any prefix. */
+    public function matchesExactly(string $normalisedPostalCode): bool
     {
         foreach ($this->postalRules as $rule) {
+            if ('exact' !== $rule['match']) {
+                continue;
+            }
+
             foreach ($rule['values'] as $value) {
-                $candidate = strtoupper($value);
-
-                if ('exact' === $rule['match'] && $normalisedPostalCode === $candidate) {
-                    return true;
-                }
-
-                if ('prefix' === $rule['match'] && str_starts_with($normalisedPostalCode, $candidate)) {
+                if ($normalisedPostalCode === strtoupper($value)) {
                     return true;
                 }
             }
         }
 
         return false;
+    }
+
+    /**
+     * The length of the longest matching prefix, or null. Length is returned rather than a
+     * boolean so the most specific rule wins: 97150 is Saint-Martin, not Guadeloupe, even
+     * though Guadeloupe owns the 971 prefix it sits inside.
+     */
+    public function longestPrefixMatch(string $normalisedPostalCode): ?int
+    {
+        $longest = null;
+        foreach ($this->postalRules as $rule) {
+            if ('prefix' !== $rule['match']) {
+                continue;
+            }
+
+            foreach ($rule['values'] as $value) {
+                $candidate = strtoupper($value);
+                if (str_starts_with($normalisedPostalCode, $candidate)) {
+                    $longest = max($longest ?? 0, \strlen($candidate));
+                }
+            }
+        }
+
+        return $longest;
     }
 
     public function hasPostalRules(): bool

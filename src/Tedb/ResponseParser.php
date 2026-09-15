@@ -120,6 +120,7 @@ final class ResponseParser
         }
 
         $country = strtoupper(trim($this->childValue($node, 'memberState')));
+        $category = trim($this->descendantValue($node, 'category', 'identifier'));
         $situationOn = $this->childValue($node, 'situationOn');
         if ('' === $country || '' === $situationOn) {
             return null;
@@ -132,6 +133,7 @@ final class ResponseParser
             date: CalendarDate::parse($situationOn),
             qualifier: $this->qualifierOf($node),
             comment: '' === trim($this->childValue($node, 'comment')) ? null : trim($this->childValue($node, 'comment')),
+            category: '' === $category ? null : $category,
         );
     }
 
@@ -143,6 +145,13 @@ final class ResponseParser
     private function qualifierOf(\DOMElement $node): ?string
     {
         $comment = trim($this->childValue($node, 'comment'));
+
+        // A REGION row is regional whatever its comment says — the structured marker wins, and
+        // the comment is then just the best available name for the region.
+        if ('REGION' === trim($this->descendantValue($node, 'category', 'identifier'))) {
+            return '' === $comment ? 'Region' : $this->firstSentence($comment);
+        }
+
         if ('' === $comment) {
             return null;
         }
@@ -154,6 +163,21 @@ final class ResponseParser
         $qualifier = trim($matches[1]);
 
         return '' === $qualifier ? null : $qualifier;
+    }
+
+    /**
+     * A usable name from a regional comment.
+     *
+     * These run from a bare "Jungholz, Mittelberg" to a paragraph explaining exactly which
+     * Aegean islands qualify and under which law. The leading clause is the part that names the
+     * place; the rest is justification.
+     */
+    private function firstSentence(string $comment): string
+    {
+        $plain = trim((string) preg_replace('/\s+/', ' ', strip_tags(html_entity_decode($comment))));
+        $cut = preg_split('/(?<=[.;:])\s|\s+\(|\s+-\s+/', $plain, 2) ?: [$plain];
+
+        return trim(rtrim(trim($cut[0]), '.;:,'));
     }
 
     /**

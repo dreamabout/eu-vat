@@ -60,7 +60,11 @@ final class TerritoryTable
                 treatAs: isset($entry['treat_as']) ? strtoupper((string) $entry['treat_as']) : null,
                 rateUnverified: (bool) ($entry['rate_unverified'] ?? false),
                 legalBasis: (string) ($entry['legal_basis'] ?? ''),
+                aliases: self::strings($entry['aliases'] ?? []),
                 postalRules: self::postalRules($entry['postal_codes'] ?? []),
+                postalCoverage: \in_array($entry['postal_coverage'] ?? null, ['complete', 'partial', 'none'], true)
+                    ? (string) $entry['postal_coverage']
+                    : 'none',
                 verifiedOn: isset($entry['verified_on']) ? (string) $entry['verified_on'] : null,
             );
         }
@@ -86,17 +90,33 @@ final class TerritoryTable
             return null;
         }
 
+        $postalCode = (string) $place->postalCode;
+
+        // Exact codes first. Saint-Martin (97150) and Saint-Barthelemy (97133) sit INSIDE
+        // Guadeloupe's 971 prefix, having kept their old codes when they were detached in 2007;
+        // resolving in file order would attribute both to Guadeloupe.
+        foreach ($this->territories as $territory) {
+            if ($territory->memberState === $place->country && $territory->matchesExactly($postalCode)) {
+                return $territory;
+            }
+        }
+
+        // Then the longest matching prefix, so the most specific rule wins.
+        $best = null;
+        $bestLength = 0;
         foreach ($this->territories as $territory) {
             if ($territory->memberState !== $place->country) {
                 continue;
             }
 
-            if ($territory->matchesPostalCode((string) $place->postalCode)) {
-                return $territory;
+            $length = $territory->longestPrefixMatch($postalCode);
+            if (null !== $length && $length > $bestLength) {
+                $best = $territory;
+                $bestLength = $length;
             }
         }
 
-        return null;
+        return $best;
     }
 
     /**
@@ -161,6 +181,24 @@ final class TerritoryTable
      */
     public function territoryNamedIn(string $comment): ?Territory
     {
+        $haystack = $this->normaliseName($comment);
+
+        // Curated aliases first. TEDB's regional comments are verbose — "Azores Autonomous
+        // Region", "For Corsica", "The Aegean Islands of Leros, Lesvos, Kos, Samos and Chios" —
+        // so an alias matches as a substring. Safe because the aliases are hand-written, not
+        // derived from the data they are matched against.
+        foreach ($this->territories as $territory) {
+            foreach ($territory->aliases as $alias) {
+                $needle = $this->normaliseName($alias);
+                // Word-boundary match, not a bare substring: "Corse" must not be found inside
+                // "corsets". Names are normalised to space-separated words, so padding both
+                // sides with spaces is enough.
+                if ('' !== $needle && str_contains(' '.$haystack.' ', ' '.$needle.' ')) {
+                    return $territory;
+                }
+            }
+        }
+
         foreach ($this->splitNames($comment) as $part) {
             foreach ($this->territories as $territory) {
                 foreach ($this->splitNames($territory->name) as $candidate) {
@@ -197,6 +235,18 @@ final class TerritoryTable
         $folded = iconv('UTF-8', 'ASCII//TRANSLIT', $name);
 
         return strtolower(trim((string) preg_replace('/[^A-Za-z0-9]+/', ' ', false === $folded ? $name : $folded)));
+    }
+
+    /**
+     * @return list<string>
+     */
+    private static function strings(mixed $values): array
+    {
+        if (!\is_array($values)) {
+            return [];
+        }
+
+        return array_values(array_map(static fn (mixed $v): string => trim((string) $v), $values));
     }
 
     /**

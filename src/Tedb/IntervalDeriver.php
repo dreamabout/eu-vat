@@ -120,10 +120,29 @@ final class IntervalDeriver
      */
     private function deriveReduced(string $country, array $samples, array $grid): array
     {
+        $standardByDate = [];
+        foreach ($samples as $sample) {
+            if (RateClass::STANDARD === $sample->rateClass) {
+                $standardByDate[$sample->date->format('Y-m-d')] = $sample->percent;
+            }
+        }
+
         /** @var array<string, array{class: RateClass, percent: string, dates: array<string, true>}> $bands */
         $bands = [];
         foreach ($samples as $sample) {
             if (RateClass::STANDARD === $sample->rateClass) {
+                continue;
+            }
+
+            // TEDB records "this category is taxed at the standard rate" as a REDUCED_RATE row
+            // whose value IS the standard rate — Austria's loan-libraries row reads 20.0, the
+            // same 20% everything else pays. That is the absence of a reduced band, not a band,
+            // and publishing it would let a caller believe Germany has a 19% "reduced" rate.
+            //
+            // Compared per DATE rather than against every standard rate the country ever had,
+            // so a rate that was once standard and later became a genuine reduced band survives.
+            $onDate = $standardByDate[$sample->date->format('Y-m-d')] ?? null;
+            if (null !== $onDate && 0 === bccomp($sample->percent, $onDate, 6)) {
                 continue;
             }
             $key = $sample->rateClass->value.'|'.$sample->percent;

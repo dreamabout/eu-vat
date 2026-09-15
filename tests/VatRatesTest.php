@@ -6,7 +6,6 @@ namespace Kaikei\EuVat\Tests;
 
 use Kaikei\EuVat\Exception\OutsideVatArea;
 use Kaikei\EuVat\Exception\PostalCodeRequired;
-use Kaikei\EuVat\Exception\TerritoryRateUnverified;
 use Kaikei\EuVat\Exception\UnknownCountry;
 use Kaikei\EuVat\Exception\UnknownRateForDate;
 use Kaikei\EuVat\Place;
@@ -140,9 +139,8 @@ final class VatRatesTest extends TestCase
         }
     }
 
-    public function testAnUnverifiedTerritoryRateIsRefusedRatherThanGuessed(): void
+    public function testAPortugueseAutonomousRegionResolvesAtItsOwnRate(): void
     {
-        // Portugal is not in this fixture, so build one that has it.
         $rates = VatRates::fromArray([
             'schema' => 1,
             'generated_at' => '2026-09-15T00:00:00Z',
@@ -156,10 +154,11 @@ final class VatRatesTest extends TestCase
             'territorial_observed' => [],
         ]);
 
-        $this->expectException(TerritoryRateUnverified::class);
-        $this->expectExceptionMessageMatches('/Madeira/');
+        $on = new \DateTimeImmutable('2026-01-01');
 
-        $rates->rateFor(Place::of('PT', '9000-123'), new \DateTimeImmutable('2026-01-01'));
+        self::assertSame('23.00', $rates->rateFor(Place::of('PT', '1000-001'), $on)->percent, 'Lisbon.');
+        self::assertSame('22.00', $rates->rateFor(Place::of('PT', '9000-123'), $on)->percent, 'Madeira.');
+        self::assertSame('16.00', $rates->rateFor(Place::of('PT', '9500-321'), $on)->percent, 'Azores.');
     }
 
     public function testATerritoryRateOverrideBeatsTheMainlandRate(): void

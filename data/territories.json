@@ -1,0 +1,232 @@
+{
+  "_README": [
+    "Curated by hand from Council Directive 2006/112/EC. NEVER scraped: the Commission's own",
+    "'Territorial status of EU countries and certain territories' summary page, read",
+    "programmatically, reports the Canary Islands, Mount Athos, the Aland Islands and the French",
+    "overseas departments as INSIDE the EU VAT area. Article 6 of the Directive says the opposite.",
+    "",
+    "Two fields carry different levels of confidence, deliberately:",
+    "  legal_basis   - verified against the consolidated Directive text. High confidence.",
+    "  postal_source - the national rule. NOT verified against a primary source yet; every entry",
+    "                  has verified_on: null until someone checks it. See VERIFICATION.md.",
+    "",
+    "rate_unverified: true means the territory is inside the VAT area but at rates this package",
+    "has not confirmed. Resolution THROWS for those rather than returning the mainland rate,",
+    "because a wrong rate is worse than a refusal."
+  ],
+
+  "mount_athos": {
+    "name": "Mount Athos",
+    "member_state": "EL",
+    "vat_area": false,
+    "legal_basis": "Directive 2006/112/EC Art. 6(1)(a)",
+    "postal_codes": [{ "match": "exact", "values": ["63086"] }],
+    "postal_source": "Hellenic Post; Autonomous Monastic State of the Holy Mountain",
+    "verified_on": null
+  },
+  "canary_islands": {
+    "name": "Canary Islands",
+    "member_state": "ES",
+    "vat_area": false,
+    "legal_basis": "Directive 2006/112/EC Art. 6(1)(b)",
+    "note": "Subject to IGIC, a local indirect tax, not EU VAT. TEDB reports it as an ES STANDARD row commented 'VAT - Canary Islands - '.",
+    "postal_codes": [{ "match": "prefix", "values": ["35", "38"] }],
+    "postal_source": "Correos: Las Palmas 35xxx, Santa Cruz de Tenerife 38xxx",
+    "verified_on": null
+  },
+  "guadeloupe": {
+    "name": "Guadeloupe",
+    "member_state": "FR",
+    "vat_area": false,
+    "legal_basis": "Directive 2006/112/EC Art. 6(1)(c); TFEU Art. 349",
+    "postal_codes": [{ "match": "prefix", "values": ["971"] }],
+    "postal_source": "La Poste overseas prefix 971",
+    "verified_on": null
+  },
+  "martinique": {
+    "name": "Martinique",
+    "member_state": "FR",
+    "vat_area": false,
+    "legal_basis": "Directive 2006/112/EC Art. 6(1)(c); TFEU Art. 349",
+    "postal_codes": [{ "match": "prefix", "values": ["972"] }],
+    "postal_source": "La Poste overseas prefix 972",
+    "verified_on": null
+  },
+  "french_guiana": {
+    "name": "French Guiana",
+    "member_state": "FR",
+    "vat_area": false,
+    "legal_basis": "Directive 2006/112/EC Art. 6(1)(c); TFEU Art. 349",
+    "postal_codes": [{ "match": "prefix", "values": ["973"] }],
+    "postal_source": "La Poste overseas prefix 973",
+    "verified_on": null
+  },
+  "reunion": {
+    "name": "Réunion",
+    "member_state": "FR",
+    "vat_area": false,
+    "legal_basis": "Directive 2006/112/EC Art. 6(1)(c); TFEU Art. 349",
+    "postal_codes": [{ "match": "prefix", "values": ["974"] }],
+    "postal_source": "La Poste overseas prefix 974",
+    "verified_on": null
+  },
+  "mayotte": {
+    "name": "Mayotte",
+    "member_state": "FR",
+    "vat_area": false,
+    "legal_basis": "Directive 2006/112/EC Art. 6(1)(c); TFEU Art. 349",
+    "postal_codes": [{ "match": "prefix", "values": ["976"] }],
+    "postal_source": "La Poste overseas prefix 976",
+    "verified_on": null
+  },
+  "saint_martin": {
+    "name": "Saint-Martin",
+    "member_state": "FR",
+    "vat_area": false,
+    "legal_basis": "Directive 2006/112/EC Art. 6(1)(c); TFEU Art. 355(1)",
+    "postal_codes": [{ "match": "exact", "values": ["97150"] }],
+    "postal_source": "La Poste 97150",
+    "verified_on": null
+  },
+  "aland_islands": {
+    "name": "Åland Islands",
+    "member_state": "FI",
+    "vat_area": false,
+    "legal_basis": "Directive 2006/112/EC Art. 6(1)(d)",
+    "postal_codes": [{ "match": "prefix", "values": ["22"] }],
+    "postal_source": "Posti: Åland 22xxx",
+    "verified_on": null
+  },
+  "campione_ditalia": {
+    "name": "Campione d'Italia",
+    "member_state": "IT",
+    "vat_area": false,
+    "legal_basis": "Directive 2006/112/EC Art. 6(1)(f)",
+    "postal_codes": [{ "match": "exact", "values": ["22061"] }],
+    "postal_source": "Poste Italiane CAP 22061",
+    "verified_on": null
+  },
+  "lake_lugano_italian_waters": {
+    "name": "Italian waters of Lake Lugano",
+    "member_state": "IT",
+    "vat_area": false,
+    "legal_basis": "Directive 2006/112/EC Art. 6(1)(g)",
+    "note": "No postal code: it is a body of water, not an addressable territory. Recorded for completeness; unreachable by postcode resolution.",
+    "postal_codes": [],
+    "postal_source": null,
+    "verified_on": null
+  },
+
+  "heligoland": {
+    "name": "Heligoland",
+    "member_state": "DE",
+    "vat_area": false,
+    "legal_basis": "Directive 2006/112/EC Art. 6(2)(a)",
+    "postal_codes": [{ "match": "exact", "values": ["27498"] }],
+    "postal_source": "Deutsche Post PLZ 27498",
+    "verified_on": null
+  },
+  "busingen": {
+    "name": "Büsingen am Hochrhein",
+    "member_state": "DE",
+    "vat_area": false,
+    "legal_basis": "Directive 2006/112/EC Art. 6(2)(b)",
+    "postal_codes": [{ "match": "exact", "values": ["78266"] }],
+    "postal_source": "Deutsche Post PLZ 78266",
+    "verified_on": null
+  },
+  "ceuta": {
+    "name": "Ceuta",
+    "member_state": "ES",
+    "vat_area": false,
+    "legal_basis": "Directive 2006/112/EC Art. 6(2)(c)",
+    "postal_codes": [{ "match": "prefix", "values": ["51"] }],
+    "postal_source": "Correos: Ceuta 51xxx",
+    "verified_on": null
+  },
+  "melilla": {
+    "name": "Melilla",
+    "member_state": "ES",
+    "vat_area": false,
+    "legal_basis": "Directive 2006/112/EC Art. 6(2)(d)",
+    "postal_codes": [{ "match": "prefix", "values": ["52"] }],
+    "postal_source": "Correos: Melilla 52xxx",
+    "verified_on": null
+  },
+  "livigno": {
+    "name": "Livigno",
+    "member_state": "IT",
+    "vat_area": false,
+    "legal_basis": "Directive 2006/112/EC Art. 6(2)(e)",
+    "postal_codes": [{ "match": "exact", "values": ["23041", "23030"] }],
+    "postal_source": "Poste Italiane CAP 23041 (23030 before the 2017 renumbering)",
+    "verified_on": null
+  },
+
+  "jungholz_mittelberg": {
+    "name": "Jungholz and Mittelberg",
+    "member_state": "AT",
+    "vat_area": true,
+    "rate_override": { "standard": "19.00" },
+    "legal_basis": "UStG 1994 §10(4). Corroborated independently by TEDB, which reports an AT REDUCED 19.0 row commented 'Jungholz, Mittelberg'.",
+    "postal_codes": [{ "match": "exact", "values": ["6691", "6991", "6992", "6993"] }],
+    "postal_source": "Österreichische Post: Jungholz 6691; Kleinwalsertal (Mittelberg) 6991-6993",
+    "verified_on": "2026-09-15"
+  },
+  "madeira": {
+    "name": "Madeira",
+    "member_state": "PT",
+    "vat_area": true,
+    "rate_unverified": true,
+    "legal_basis": "Inside the VAT area (not listed in Directive Art. 6), at autonomous-region rates set under Portuguese law.",
+    "note": "Madeira applies its own rates, lower than mainland Portugal. This package has NOT verified the current values against a Portuguese primary source, so resolution throws rather than returning the mainland rate.",
+    "postal_codes": [{ "match": "prefix", "values": ["90", "91", "92", "93"] }],
+    "postal_source": "CTT: Madeira 9000-9399",
+    "verified_on": null
+  },
+  "azores": {
+    "name": "Azores",
+    "member_state": "PT",
+    "vat_area": true,
+    "rate_unverified": true,
+    "legal_basis": "Inside the VAT area (not listed in Directive Art. 6), at autonomous-region rates set under Portuguese law.",
+    "note": "As Madeira: own rates, not verified here, so resolution throws rather than guessing.",
+    "postal_codes": [{ "match": "prefix", "values": ["95", "96", "97", "98", "99"] }],
+    "postal_source": "CTT: Azores 9500-9999",
+    "verified_on": null
+  },
+
+  "monaco": {
+    "name": "Monaco",
+    "iso_country": "MC",
+    "member_state": "FR",
+    "vat_area": true,
+    "treat_as": "FR",
+    "legal_basis": "Directive 2006/112/EC Art. 7(1) — 'shall not be regarded ... as third countries'; Art. 7(2) requires transactions to be treated as French.",
+    "postal_codes": [{ "match": "prefix", "values": ["980"] }],
+    "postal_source": "Monaco postal codes 980xx",
+    "verified_on": null
+  },
+  "isle_of_man": {
+    "name": "Isle of Man",
+    "iso_country": "IM",
+    "member_state": "GB",
+    "vat_area": true,
+    "treat_as": "GB",
+    "legal_basis": "Directive 2006/112/EC Art. 7(1)-(2) — treated as the United Kingdom.",
+    "note": "GB is not in the TEDB snapshot, so this entry documents the treatment without being resolvable to a rate. Recorded so a caller is told why, rather than getting silence.",
+    "postal_codes": [{ "match": "prefix", "values": ["IM"] }],
+    "postal_source": "Royal Mail IM postcode area",
+    "verified_on": null
+  },
+  "akrotiri_and_dhekelia": {
+    "name": "Akrotiri and Dhekelia",
+    "member_state": "CY",
+    "vat_area": true,
+    "treat_as": "CY",
+    "legal_basis": "Directive 2006/112/EC Art. 7(1)-(2) — treated as Cyprus.",
+    "postal_codes": [],
+    "postal_source": null,
+    "verified_on": null
+  }
+}

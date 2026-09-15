@@ -52,6 +52,7 @@ final class ResponseParser
             }
         }
 
+        $samples = $this->deduplicate($samples);
         $this->guardAgainstAmbiguousStandardRates($samples);
 
         return new ParsedResponse($samples);
@@ -130,6 +131,7 @@ final class ResponseParser
             percent: bcadd($value, '0', 2),
             date: CalendarDate::parse($situationOn),
             qualifier: $this->qualifierOf($node),
+            comment: '' === trim($this->childValue($node, 'comment')) ? null : trim($this->childValue($node, 'comment')),
         );
     }
 
@@ -155,24 +157,58 @@ final class ResponseParser
     }
 
     /**
+     * TEDB repeats rows: a 27-state query across 2015-2026 returns 575 non-qualifier standard
+     * rows of which only 566 are distinct. The repeats are byte-identical — same country, date,
+     * value and comment — and carry no information, so they are collapsed before anything tries
+     * to read meaning into their number.
+     *
+     * @param list<RateSample> $samples
+     *
+     * @return list<RateSample>
+     */
+    private function deduplicate(array $samples): array
+    {
+        $unique = [];
+        foreach ($samples as $sample) {
+            $key = implode('|', [
+                $sample->country,
+                $sample->rateClass->value,
+                $sample->percent,
+                $sample->date->format('Y-m-d'),
+                $sample->qualifier ?? '',
+                $sample->comment ?? '',
+            ]);
+
+            $unique[$key] ??= $sample;
+        }
+
+        return array_values($unique);
+    }
+
+    /**
+     * Ambiguity means "we cannot tell which row is the country's rate", and that only arises
+     * when the rows DISAGREE. Two rows saying 20% are not a puzzle. Measured over 2015-2026 for
+     * all 27 member states, no (country, date) ever carries two different non-qualifier standard
+     * values — so if this ever throws, something real has changed.
+     *
      * @param list<RateSample> $samples
      */
     private function guardAgainstAmbiguousStandardRates(array $samples): void
     {
-        $counts = [];
+        $values = [];
         foreach ($samples as $sample) {
             if (RateClass::STANDARD !== $sample->rateClass || $sample->isQualified()) {
                 continue;
             }
             $key = $sample->country.'|'.$sample->date->format('Y-m-d');
-            $counts[$key] = ($counts[$key] ?? 0) + 1;
+            $values[$key][$sample->percent] = true;
         }
 
-        foreach ($counts as $key => $count) {
-            if (1 !== $count) {
+        foreach ($values as $key => $distinct) {
+            if (1 !== \count($distinct)) {
                 [$country, $date] = explode('|', $key, 2);
 
-                throw TedbFault::ambiguousStandardRate($country, $date, $count);
+                throw TedbFault::ambiguousStandardRate($country, $date, \count($distinct));
             }
         }
     }

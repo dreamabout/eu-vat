@@ -36,13 +36,13 @@ final class TedbFault extends \RuntimeException implements EuVatException
     public static function ambiguousStandardRate(string $country, string $date, int $found): self
     {
         return new self(sprintf(
-            'Expected exactly one non-qualifier standard rate for %s on %s, found %d. '
-            .'A qualifier row is one whose comment reads "VAT - <Qualifier> - "; if TEDB has '
-            .'changed that convention this rule needs revisiting, and guessing which row is the '
+            'TEDB reports %d DIFFERENT standard rates for %s on %s. Exact duplicate rows are '
+            .'normal and are collapsed; genuinely disagreeing values are not, and have never '
+            .'been observed across 2015-2026 for any member state. Guessing which one is the '
             .'country rate would be worse than stopping.',
+            $found,
             $country,
             $date,
-            $found,
         ));
     }
 }

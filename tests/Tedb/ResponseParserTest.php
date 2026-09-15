@@ -144,6 +144,63 @@ final class ResponseParserTest extends TestCase
         (new ResponseParser())->parse($fault);
     }
 
+    /**
+     * TEDB repeats rows. A 27-state query across 2015-2026 returns 575 non-qualifier standard
+     * rows of which 566 are distinct; Slovakia on 2020-07-01 is reported twice, byte for byte.
+     * Two rows saying the same thing are not an ambiguity, and treating them as one aborted the
+     * first real historical sync.
+     */
+    public function testExactDuplicateRowsAreCollapsedRatherThanTreatedAsAmbiguous(): void
+    {
+        $xml = $this->responseWith([
+            ['SK', '20.0', '2020-07-01+02:00'],
+            ['SK', '20.0', '2020-07-01+02:00'],
+        ]);
+
+        $parsed = (new ResponseParser())->parse($xml);
+
+        self::assertCount(1, $parsed->standardSamples());
+        self::assertSame('20.00', $parsed->standardSamples()[0]->percent);
+    }
+
+    /** Rows that genuinely disagree are a different matter, and must stop the run. */
+    public function testDisagreeingStandardRatesAreRefused(): void
+    {
+        $xml = $this->responseWith([
+            ['SK', '20.0', '2020-07-01+02:00'],
+            ['SK', '23.0', '2020-07-01+02:00'],
+        ]);
+
+        $this->expectException(TedbFault::class);
+        $this->expectExceptionMessageMatches('/2 DIFFERENT standard rates for SK/');
+
+        (new ResponseParser())->parse($xml);
+    }
+
+    /**
+     * @param list<array{0: string, 1: string, 2: string}> $rows
+     */
+    private function responseWith(array $rows): string
+    {
+        $body = '';
+        foreach ($rows as [$country, $value, $date]) {
+            $body .= sprintf(
+                '<vatRateResults><memberState>%s</memberState><type>STANDARD</type>'
+                .'<rate><type>DEFAULT</type><value>%s</value></rate>'
+                .'<situationOn>%s</situationOn></vatRateResults>',
+                $country,
+                $value,
+                $date,
+            );
+        }
+
+        return '<env:Envelope xmlns:env="http://schemas.xmlsoap.org/soap/envelope/"><env:Body>'
+            .'<ns0:retrieveVatRatesRespMsg xmlns="urn:ec.europa.eu:taxud:tedb:services:v1:IVatRetrievalService:types" '
+            .'xmlns:ns0="urn:ec.europa.eu:taxud:tedb:services:v1:IVatRetrievalService">'
+            .$body
+            .'</ns0:retrieveVatRatesRespMsg></env:Body></env:Envelope>';
+    }
+
     public function testRejectsMalformedXmlRatherThanSilentlyReturningNothing(): void
     {
         $this->expectException(TedbFault::class);

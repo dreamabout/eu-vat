@@ -148,22 +148,40 @@ final class TerritoryTable
      */
     public function hasTerritoryNamed(string $qualifier): bool
     {
-        $needle = $this->normaliseName($qualifier);
+        return null !== $this->territoryNamedIn($qualifier);
+    }
 
-        foreach ($this->territories as $territory) {
-            if ($this->normaliseName($territory->name) === $needle) {
-                return true;
-            }
-
-            // "Jungholz, Mittelberg" names one entry covering both.
-            foreach (preg_split('/\s*,\s*/', $territory->name) ?: [] as $part) {
-                if ('' !== $part && $this->normaliseName($part) === $needle) {
-                    return true;
+    /**
+     * The territory a free-text comment names, or null.
+     *
+     * Deliberately conservative: the comment is split on commas and "and", and each part must
+     * EQUAL a territory name (or one half of a compound name) after folding accents and
+     * punctuation. A paragraph of legal prose that merely mentions Madeira does not match,
+     * because a false positive here silently removes a country's real reduced rate.
+     */
+    public function territoryNamedIn(string $comment): ?Territory
+    {
+        foreach ($this->splitNames($comment) as $part) {
+            foreach ($this->territories as $territory) {
+                foreach ($this->splitNames($territory->name) as $candidate) {
+                    if ('' !== $part && $this->normaliseName($part) === $this->normaliseName($candidate)) {
+                        return $territory;
+                    }
                 }
             }
         }
 
-        return false;
+        return null;
+    }
+
+    /**
+     * @return list<string>
+     */
+    private function splitNames(string $value): array
+    {
+        $parts = preg_split('/\s*,\s*|\s+and\s+/i', trim($value)) ?: [];
+
+        return array_values(array_filter(array_map('trim', $parts), static fn (string $p): bool => '' !== $p));
     }
 
     /**

@@ -26,7 +26,20 @@ final class RateSample
          * or null for an ordinary country rate.
          */
         public readonly ?string $qualifier,
+        /**
+         * The raw comment, kept because the shape rule cannot classify everything. TEDB writes
+         * Spain's Canary row as "VAT - Canary Islands - " but Austria's Jungholz row as a bare
+         * "Jungholz, Mittelberg", which is indistinguishable in shape from a category note like
+         * "Import only". Only the curated territory table can tell those apart.
+         */
+        public readonly ?string $comment = null,
     ) {
+    }
+
+    /** The same sample, reclassified as naming a territory. */
+    public function asQualified(string $qualifier): self
+    {
+        return new self($this->country, $this->rateClass, $this->percent, $this->date, $qualifier, $this->comment);
     }
 
     public function isQualified(): bool

@@ -1,0 +1,1196 @@
+{
+    "schema": 1,
+    "generated_at": "2026-09-15T20:34:32Z",
+    "window": {
+        "from": "2015-01-01",
+        "to": "2026-09-15"
+    },
+    "countries": {
+        "AT": {
+            "standard": [
+                {
+                    "percent": "20.00",
+                    "class": "STANDARD",
+                    "valid_from": "2016-01-01",
+                    "valid_to": null
+                }
+            ],
+            "reduced": [
+                {
+                    "percent": "0.00",
+                    "class": "REDUCED",
+                    "valid_from": "2021-01-01",
+                    "valid_to": "2022-01-01"
+                },
+                {
+                    "percent": "10.00",
+                    "class": "REDUCED",
+                    "valid_from": "2016-01-01",
+                    "valid_to": null
+                },
+                {
+                    "percent": "13.00",
+                    "class": "REDUCED",
+                    "valid_from": "2016-01-01",
+                    "valid_to": null
+                },
+                {
+                    "percent": "20.00",
+                    "class": "REDUCED",
+                    "valid_from": "2016-01-01",
+                    "valid_to": "2019-07-01"
+                },
+                {
+                    "percent": "4.90",
+                    "class": "SUPER_REDUCED",
+                    "valid_from": "2026-07-01",
+                    "valid_to": null
+                }
+            ]
+        },
+        "BE": {
+            "standard": [
+                {
+                    "percent": "21.00",
+                    "class": "STANDARD",
+                    "valid_from": "2016-01-01",
+                    "valid_to": null
+                }
+            ],
+            "reduced": [
+                {
+                    "percent": "12.00",
+                    "class": "PARKING",
+                    "valid_from": "2023-07-01",
+                    "valid_to": null
+                },
+                {
+                    "percent": "0.00",
+                    "class": "REDUCED",
+                    "valid_from": "2016-01-01",
+                    "valid_to": "2023-07-01"
+                },
+                {
+                    "percent": "12.00",
+                    "class": "REDUCED",
+                    "valid_from": "2016-01-01",
+                    "valid_to": null
+                },
+                {
+                    "percent": "21.00",
+                    "class": "REDUCED",
+                    "valid_from": "2016-01-01",
+                    "valid_to": "2019-07-01"
+                },
+                {
+                    "percent": "6.00",
+                    "class": "REDUCED",
+                    "valid_from": "2016-01-01",
+                    "valid_to": null
+                },
+                {
+                    "percent": "0.00",
+                    "class": "SUPER_REDUCED",
+                    "valid_from": "2020-01-01",
+                    "valid_to": "2021-01-01"
+                },
+                {
+                    "percent": "0.00",
+                    "class": "SUPER_REDUCED",
+                    "valid_from": "2022-01-01",
+                    "valid_to": "2023-07-01"
+                }
+            ]
+        },
+        "BG": {
+            "standard": [
+                {
+                    "percent": "20.00",
+                    "class": "STANDARD",
+                    "valid_from": "2016-01-01",
+                    "valid_to": null
+                }
+            ],
+            "reduced": [
+                {
+                    "percent": "0.00",
+                    "class": "REDUCED",
+                    "valid_from": "2016-01-01",
+                    "valid_to": "2019-07-01"
+                },
+                {
+                    "percent": "0.00",
+                    "class": "REDUCED",
+                    "valid_from": "2021-01-01",
+                    "valid_to": "2023-07-01"
+                },
+                {
+                    "percent": "9.00",
+                    "class": "REDUCED",
+                    "valid_from": "2016-01-01",
+                    "valid_to": null
+                },
+                {
+                    "percent": "9.00",
+                    "class": "SUPER_REDUCED",
+                    "valid_from": "2023-07-01",
+                    "valid_to": "2024-07-01"
+                }
+            ]
+        },
+        "CY": {
+            "standard": [
+                {
+                    "percent": "19.00",
+                    "class": "STANDARD",
+                    "valid_from": "2016-01-01",
+                    "valid_to": null
+                }
+            ],
+            "reduced": [
+                {
+                    "percent": "0.00",
+                    "class": "REDUCED",
+                    "valid_from": "2021-01-01",
+                    "valid_to": "2024-01-01"
+                },
+                {
+                    "percent": "19.00",
+                    "class": "REDUCED",
+                    "valid_from": "2016-01-01",
+                    "valid_to": "2021-01-01"
+                },
+                {
+                    "percent": "5.00",
+                    "class": "REDUCED",
+                    "valid_from": "2016-01-01",
+                    "valid_to": null
+                },
+                {
+                    "percent": "8.00",
+                    "class": "REDUCED",
+                    "valid_from": "2021-01-01",
+                    "valid_to": "2021-07-01"
+                },
+                {
+                    "percent": "9.00",
+                    "class": "REDUCED",
+                    "valid_from": "2016-01-01",
+                    "valid_to": null
+                },
+                {
+                    "percent": "3.00",
+                    "class": "SUPER_REDUCED",
+                    "valid_from": "2024-01-01",
+                    "valid_to": null
+                }
+            ]
+        },
+        "CZ": {
+            "standard": [
+                {
+                    "percent": "21.00",
+                    "class": "STANDARD",
+                    "valid_from": "2016-01-01",
+                    "valid_to": null
+                }
+            ],
+            "reduced": [
+                {
+                    "percent": "0.00",
+                    "class": "REDUCED",
+                    "valid_from": "2019-07-01",
+                    "valid_to": "2023-07-01"
+                },
+                {
+                    "percent": "10.00",
+                    "class": "REDUCED",
+                    "valid_from": "2016-01-01",
+                    "valid_to": "2024-01-01"
+                },
+                {
+                    "percent": "12.00",
+                    "class": "REDUCED",
+                    "valid_from": "2024-01-01",
+                    "valid_to": null
+                },
+                {
+                    "percent": "15.00",
+                    "class": "REDUCED",
+                    "valid_from": "2016-01-01",
+                    "valid_to": "2024-01-01"
+                }
+            ]
+        },
+        "DE": {
+            "standard": [
+                {
+                    "percent": "19.00",
+                    "class": "STANDARD",
+                    "valid_from": "2016-01-01",
+                    "valid_to": null
+                }
+            ],
+            "reduced": [
+                {
+                    "percent": "0.00",
+                    "class": "REDUCED",
+                    "valid_from": "2019-07-01",
+                    "valid_to": "2022-07-01"
+                },
+                {
+                    "percent": "0.00",
+                    "class": "REDUCED",
+                    "valid_from": "2023-01-01",
+                    "valid_to": "2023-07-01"
+                },
+                {
+                    "percent": "7.00",
+                    "class": "REDUCED",
+                    "valid_from": "2016-01-01",
+                    "valid_to": null
+                }
+            ]
+        },
+        "DK": {
+            "standard": [
+                {
+                    "percent": "25.00",
+                    "class": "STANDARD",
+                    "valid_from": "2016-01-01",
+                    "valid_to": null
+                }
+            ],
+            "reduced": [
+                {
+                    "percent": "0.00",
+                    "class": "REDUCED",
+                    "valid_from": "2016-01-01",
+                    "valid_to": "2023-07-01"
+                },
+                {
+                    "percent": "25.00",
+                    "class": "REDUCED",
+                    "valid_from": "2016-01-01",
+                    "valid_to": "2019-07-01"
+                }
+            ]
+        },
+        "EE": {
+            "standard": [
+                {
+                    "percent": "20.00",
+                    "class": "STANDARD",
+                    "valid_from": "2016-01-01",
+                    "valid_to": "2024-01-01"
+                },
+                {
+                    "percent": "22.00",
+                    "class": "STANDARD",
+                    "valid_from": "2024-01-01",
+                    "valid_to": "2025-07-01"
+                },
+                {
+                    "percent": "24.00",
+                    "class": "STANDARD",
+                    "valid_from": "2025-07-01",
+                    "valid_to": null
+                }
+            ],
+            "reduced": [
+                {
+                    "percent": "0.00",
+                    "class": "REDUCED",
+                    "valid_from": "2019-07-01",
+                    "valid_to": "2023-07-01"
+                },
+                {
+                    "percent": "13.00",
+                    "class": "REDUCED",
+                    "valid_from": "2025-01-01",
+                    "valid_to": null
+                },
+                {
+                    "percent": "5.00",
+                    "class": "REDUCED",
+                    "valid_from": "2023-01-01",
+                    "valid_to": "2025-01-01"
+                },
+                {
+                    "percent": "9.00",
+                    "class": "REDUCED",
+                    "valid_from": "2016-01-01",
+                    "valid_to": null
+                }
+            ]
+        },
+        "EL": {
+            "standard": [
+                {
+                    "percent": "24.00",
+                    "class": "STANDARD",
+                    "valid_from": "2016-01-01",
+                    "valid_to": null
+                }
+            ],
+            "reduced": [
+                {
+                    "percent": "13.00",
+                    "class": "PARKING",
+                    "valid_from": "2024-01-01",
+                    "valid_to": null
+                },
+                {
+                    "percent": "0.00",
+                    "class": "REDUCED",
+                    "valid_from": "2019-07-01",
+                    "valid_to": "2023-07-01"
+                },
+                {
+                    "percent": "13.00",
+                    "class": "REDUCED",
+                    "valid_from": "2016-01-01",
+                    "valid_to": null
+                },
+                {
+                    "percent": "17.00",
+                    "class": "REDUCED",
+                    "valid_from": "2016-01-01",
+                    "valid_to": null
+                },
+                {
+                    "percent": "24.00",
+                    "class": "REDUCED",
+                    "valid_from": "2017-01-01",
+                    "valid_to": "2019-07-01"
+                },
+                {
+                    "percent": "6.00",
+                    "class": "REDUCED",
+                    "valid_from": "2016-01-01",
+                    "valid_to": null
+                },
+                {
+                    "percent": "4.00",
+                    "class": "SUPER_REDUCED",
+                    "valid_from": "2024-01-01",
+                    "valid_to": null
+                }
+            ]
+        },
+        "ES": {
+            "standard": [
+                {
+                    "percent": "21.00",
+                    "class": "STANDARD",
+                    "valid_from": "2016-01-01",
+                    "valid_to": null
+                }
+            ],
+            "reduced": [
+                {
+                    "percent": "0.00",
+                    "class": "REDUCED",
+                    "valid_from": "2023-07-01",
+                    "valid_to": "2024-07-01"
+                },
+                {
+                    "percent": "10.00",
+                    "class": "REDUCED",
+                    "valid_from": "2016-01-01",
+                    "valid_to": "2023-07-01"
+                },
+                {
+                    "percent": "10.00",
+                    "class": "REDUCED",
+                    "valid_from": "2024-01-01",
+                    "valid_to": null
+                },
+                {
+                    "percent": "21.00",
+                    "class": "REDUCED",
+                    "valid_from": "2016-01-01",
+                    "valid_to": "2018-01-01"
+                },
+                {
+                    "percent": "4.00",
+                    "class": "SUPER_REDUCED",
+                    "valid_from": "2016-01-01",
+                    "valid_to": "2023-07-01"
+                },
+                {
+                    "percent": "4.00",
+                    "class": "SUPER_REDUCED",
+                    "valid_from": "2025-01-01",
+                    "valid_to": null
+                }
+            ]
+        },
+        "FI": {
+            "standard": [
+                {
+                    "percent": "24.00",
+                    "class": "STANDARD",
+                    "valid_from": "2016-01-01",
+                    "valid_to": "2024-09-01"
+                },
+                {
+                    "percent": "25.50",
+                    "class": "STANDARD",
+                    "valid_from": "2024-09-01",
+                    "valid_to": null
+                }
+            ],
+            "reduced": [
+                {
+                    "percent": "0.00",
+                    "class": "REDUCED",
+                    "valid_from": "2016-01-01",
+                    "valid_to": "2023-07-01"
+                },
+                {
+                    "percent": "10.00",
+                    "class": "REDUCED",
+                    "valid_from": "2016-01-01",
+                    "valid_to": null
+                },
+                {
+                    "percent": "13.50",
+                    "class": "REDUCED",
+                    "valid_from": "2026-01-01",
+                    "valid_to": null
+                },
+                {
+                    "percent": "14.00",
+                    "class": "REDUCED",
+                    "valid_from": "2016-01-01",
+                    "valid_to": "2026-01-01"
+                },
+                {
+                    "percent": "24.00",
+                    "class": "REDUCED",
+                    "valid_from": "2019-01-01",
+                    "valid_to": "2019-07-01"
+                }
+            ]
+        },
+        "FR": {
+            "standard": [
+                {
+                    "percent": "20.00",
+                    "class": "STANDARD",
+                    "valid_from": "2016-01-01",
+                    "valid_to": null
+                }
+            ],
+            "reduced": [
+                {
+                    "percent": "0.00",
+                    "class": "REDUCED",
+                    "valid_from": "2021-01-01",
+                    "valid_to": "2023-07-01"
+                },
+                {
+                    "percent": "0.90",
+                    "class": "REDUCED",
+                    "valid_from": "2016-01-01",
+                    "valid_to": null
+                },
+                {
+                    "percent": "10.00",
+                    "class": "REDUCED",
+                    "valid_from": "2016-01-01",
+                    "valid_to": null
+                },
+                {
+                    "percent": "13.00",
+                    "class": "REDUCED",
+                    "valid_from": "2016-01-01",
+                    "valid_to": null
+                },
+                {
+                    "percent": "2.10",
+                    "class": "REDUCED",
+                    "valid_from": "2016-01-01",
+                    "valid_to": "2023-07-01"
+                },
+                {
+                    "percent": "20.00",
+                    "class": "REDUCED",
+                    "valid_from": "2016-01-01",
+                    "valid_to": "2019-07-01"
+                },
+                {
+                    "percent": "5.50",
+                    "class": "REDUCED",
+                    "valid_from": "2016-01-01",
+                    "valid_to": null
+                },
+                {
+                    "percent": "2.10",
+                    "class": "SUPER_REDUCED",
+                    "valid_from": "2016-01-01",
+                    "valid_to": null
+                }
+            ]
+        },
+        "HR": {
+            "standard": [
+                {
+                    "percent": "25.00",
+                    "class": "STANDARD",
+                    "valid_from": "2016-01-01",
+                    "valid_to": null
+                }
+            ],
+            "reduced": [
+                {
+                    "percent": "13.00",
+                    "class": "REDUCED",
+                    "valid_from": "2016-01-01",
+                    "valid_to": null
+                },
+                {
+                    "percent": "5.00",
+                    "class": "REDUCED",
+                    "valid_from": "2016-01-01",
+                    "valid_to": null
+                }
+            ]
+        },
+        "HU": {
+            "standard": [
+                {
+                    "percent": "27.00",
+                    "class": "STANDARD",
+                    "valid_from": "2016-01-01",
+                    "valid_to": null
+                }
+            ],
+            "reduced": [
+                {
+                    "percent": "0.00",
+                    "class": "REDUCED",
+                    "valid_from": "2019-07-01",
+                    "valid_to": "2023-07-01"
+                },
+                {
+                    "percent": "18.00",
+                    "class": "REDUCED",
+                    "valid_from": "2016-01-01",
+                    "valid_to": null
+                },
+                {
+                    "percent": "5.00",
+                    "class": "REDUCED",
+                    "valid_from": "2016-01-01",
+                    "valid_to": null
+                }
+            ]
+        },
+        "IE": {
+            "standard": [
+                {
+                    "percent": "23.00",
+                    "class": "STANDARD",
+                    "valid_from": "2016-01-01",
+                    "valid_to": "2020-09-01"
+                },
+                {
+                    "percent": "21.00",
+                    "class": "STANDARD",
+                    "valid_from": "2020-09-01",
+                    "valid_to": "2021-03-01"
+                },
+                {
+                    "percent": "23.00",
+                    "class": "STANDARD",
+                    "valid_from": "2021-03-01",
+                    "valid_to": null
+                }
+            ],
+            "reduced": [
+                {
+                    "percent": "0.00",
+                    "class": "REDUCED",
+                    "valid_from": "2016-01-01",
+                    "valid_to": "2023-07-01"
+                },
+                {
+                    "percent": "13.50",
+                    "class": "REDUCED",
+                    "valid_from": "2016-01-01",
+                    "valid_to": null
+                },
+                {
+                    "percent": "9.00",
+                    "class": "REDUCED",
+                    "valid_from": "2016-01-01",
+                    "valid_to": null
+                },
+                {
+                    "percent": "4.80",
+                    "class": "SUPER_REDUCED",
+                    "valid_from": "2016-01-01",
+                    "valid_to": "2023-07-01"
+                }
+            ]
+        },
+        "IT": {
+            "standard": [
+                {
+                    "percent": "22.00",
+                    "class": "STANDARD",
+                    "valid_from": "2016-01-01",
+                    "valid_to": null
+                }
+            ],
+            "reduced": [
+                {
+                    "percent": "0.00",
+                    "class": "REDUCED",
+                    "valid_from": "2016-01-01",
+                    "valid_to": "2023-07-01"
+                },
+                {
+                    "percent": "10.00",
+                    "class": "REDUCED",
+                    "valid_from": "2016-01-01",
+                    "valid_to": null
+                },
+                {
+                    "percent": "22.00",
+                    "class": "REDUCED",
+                    "valid_from": "2017-01-01",
+                    "valid_to": "2021-01-01"
+                },
+                {
+                    "percent": "4.00",
+                    "class": "REDUCED",
+                    "valid_from": "2016-01-01",
+                    "valid_to": "2023-07-01"
+                },
+                {
+                    "percent": "5.00",
+                    "class": "REDUCED",
+                    "valid_from": "2016-01-01",
+                    "valid_to": null
+                },
+                {
+                    "percent": "0.00",
+                    "class": "SUPER_REDUCED",
+                    "valid_from": "2023-07-01",
+                    "valid_to": "2024-07-01"
+                },
+                {
+                    "percent": "4.00",
+                    "class": "SUPER_REDUCED",
+                    "valid_from": "2016-01-01",
+                    "valid_to": "2021-01-01"
+                },
+                {
+                    "percent": "4.00",
+                    "class": "SUPER_REDUCED",
+                    "valid_from": "2023-07-01",
+                    "valid_to": null
+                }
+            ]
+        },
+        "LT": {
+            "standard": [
+                {
+                    "percent": "21.00",
+                    "class": "STANDARD",
+                    "valid_from": "2016-01-01",
+                    "valid_to": null
+                }
+            ],
+            "reduced": [
+                {
+                    "percent": "12.00",
+                    "class": "REDUCED",
+                    "valid_from": "2026-01-01",
+                    "valid_to": null
+                },
+                {
+                    "percent": "5.00",
+                    "class": "REDUCED",
+                    "valid_from": "2016-01-01",
+                    "valid_to": null
+                },
+                {
+                    "percent": "9.00",
+                    "class": "REDUCED",
+                    "valid_from": "2016-01-01",
+                    "valid_to": "2026-01-01"
+                }
+            ]
+        },
+        "LU": {
+            "standard": [
+                {
+                    "percent": "17.00",
+                    "class": "STANDARD",
+                    "valid_from": "2016-01-01",
+                    "valid_to": "2023-01-01"
+                },
+                {
+                    "percent": "16.00",
+                    "class": "STANDARD",
+                    "valid_from": "2023-01-01",
+                    "valid_to": "2024-01-01"
+                },
+                {
+                    "percent": "17.00",
+                    "class": "STANDARD",
+                    "valid_from": "2024-01-01",
+                    "valid_to": null
+                }
+            ],
+            "reduced": [
+                {
+                    "percent": "13.00",
+                    "class": "PARKING",
+                    "valid_from": "2023-07-01",
+                    "valid_to": "2024-01-01"
+                },
+                {
+                    "percent": "14.00",
+                    "class": "PARKING",
+                    "valid_from": "2024-01-01",
+                    "valid_to": null
+                },
+                {
+                    "percent": "0.00",
+                    "class": "REDUCED",
+                    "valid_from": "2019-07-01",
+                    "valid_to": "2022-01-01"
+                },
+                {
+                    "percent": "13.00",
+                    "class": "REDUCED",
+                    "valid_from": "2023-01-01",
+                    "valid_to": "2024-01-01"
+                },
+                {
+                    "percent": "14.00",
+                    "class": "REDUCED",
+                    "valid_from": "2016-01-01",
+                    "valid_to": "2023-01-01"
+                },
+                {
+                    "percent": "14.00",
+                    "class": "REDUCED",
+                    "valid_from": "2024-01-01",
+                    "valid_to": null
+                },
+                {
+                    "percent": "3.00",
+                    "class": "REDUCED",
+                    "valid_from": "2016-01-01",
+                    "valid_to": "2023-07-01"
+                },
+                {
+                    "percent": "7.00",
+                    "class": "REDUCED",
+                    "valid_from": "2023-01-01",
+                    "valid_to": "2024-01-01"
+                },
+                {
+                    "percent": "8.00",
+                    "class": "REDUCED",
+                    "valid_from": "2016-01-01",
+                    "valid_to": "2023-01-01"
+                },
+                {
+                    "percent": "8.00",
+                    "class": "REDUCED",
+                    "valid_from": "2024-01-01",
+                    "valid_to": null
+                },
+                {
+                    "percent": "0.00",
+                    "class": "SUPER_REDUCED",
+                    "valid_from": "2023-07-01",
+                    "valid_to": "2024-01-01"
+                },
+                {
+                    "percent": "3.00",
+                    "class": "SUPER_REDUCED",
+                    "valid_from": "2016-01-01",
+                    "valid_to": null
+                },
+                {
+                    "percent": "8.00",
+                    "class": "SUPER_REDUCED",
+                    "valid_from": "2025-01-01",
+                    "valid_to": null
+                }
+            ]
+        },
+        "LV": {
+            "standard": [
+                {
+                    "percent": "21.00",
+                    "class": "STANDARD",
+                    "valid_from": "2016-01-01",
+                    "valid_to": null
+                }
+            ],
+            "reduced": [
+                {
+                    "percent": "12.00",
+                    "class": "REDUCED",
+                    "valid_from": "2016-01-01",
+                    "valid_to": null
+                },
+                {
+                    "percent": "5.00",
+                    "class": "REDUCED",
+                    "valid_from": "2018-01-01",
+                    "valid_to": null
+                }
+            ]
+        },
+        "MT": {
+            "standard": [
+                {
+                    "percent": "18.00",
+                    "class": "STANDARD",
+                    "valid_from": "2016-01-01",
+                    "valid_to": null
+                }
+            ],
+            "reduced": [
+                {
+                    "percent": "12.00",
+                    "class": "PARKING",
+                    "valid_from": "2024-01-01",
+                    "valid_to": null
+                },
+                {
+                    "percent": "0.00",
+                    "class": "REDUCED",
+                    "valid_from": "2016-01-01",
+                    "valid_to": "2023-07-01"
+                },
+                {
+                    "percent": "5.00",
+                    "class": "REDUCED",
+                    "valid_from": "2016-01-01",
+                    "valid_to": null
+                },
+                {
+                    "percent": "7.00",
+                    "class": "REDUCED",
+                    "valid_from": "2016-01-01",
+                    "valid_to": null
+                }
+            ]
+        },
+        "NL": {
+            "standard": [
+                {
+                    "percent": "21.00",
+                    "class": "STANDARD",
+                    "valid_from": "2016-07-01",
+                    "valid_to": null
+                }
+            ],
+            "reduced": [
+                {
+                    "percent": "0.00",
+                    "class": "REDUCED",
+                    "valid_from": "2019-07-01",
+                    "valid_to": "2023-07-01"
+                },
+                {
+                    "percent": "21.00",
+                    "class": "REDUCED",
+                    "valid_from": "2016-07-01",
+                    "valid_to": "2018-01-01"
+                },
+                {
+                    "percent": "6.00",
+                    "class": "REDUCED",
+                    "valid_from": "2016-07-01",
+                    "valid_to": "2019-01-01"
+                },
+                {
+                    "percent": "9.00",
+                    "class": "REDUCED",
+                    "valid_from": "2019-01-01",
+                    "valid_to": null
+                }
+            ]
+        },
+        "PL": {
+            "standard": [
+                {
+                    "percent": "23.00",
+                    "class": "STANDARD",
+                    "valid_from": "2016-01-01",
+                    "valid_to": null
+                }
+            ],
+            "reduced": [
+                {
+                    "percent": "0.00",
+                    "class": "REDUCED",
+                    "valid_from": "2019-07-01",
+                    "valid_to": "2023-07-01"
+                },
+                {
+                    "percent": "5.00",
+                    "class": "REDUCED",
+                    "valid_from": "2016-01-01",
+                    "valid_to": null
+                },
+                {
+                    "percent": "8.00",
+                    "class": "REDUCED",
+                    "valid_from": "2016-01-01",
+                    "valid_to": null
+                },
+                {
+                    "percent": "8.00",
+                    "class": "SUPER_REDUCED",
+                    "valid_from": "2025-01-01",
+                    "valid_to": null
+                }
+            ]
+        },
+        "PT": {
+            "standard": [
+                {
+                    "percent": "23.00",
+                    "class": "STANDARD",
+                    "valid_from": "2016-01-01",
+                    "valid_to": null
+                }
+            ],
+            "reduced": [
+                {
+                    "percent": "13.00",
+                    "class": "PARKING",
+                    "valid_from": "2024-01-01",
+                    "valid_to": null
+                },
+                {
+                    "percent": "13.00",
+                    "class": "REDUCED",
+                    "valid_from": "2016-01-01",
+                    "valid_to": null
+                },
+                {
+                    "percent": "16.00",
+                    "class": "REDUCED",
+                    "valid_from": "2021-07-01",
+                    "valid_to": null
+                },
+                {
+                    "percent": "18.00",
+                    "class": "REDUCED",
+                    "valid_from": "2016-01-01",
+                    "valid_to": "2021-07-01"
+                },
+                {
+                    "percent": "22.00",
+                    "class": "REDUCED",
+                    "valid_from": "2016-01-01",
+                    "valid_to": null
+                },
+                {
+                    "percent": "6.00",
+                    "class": "REDUCED",
+                    "valid_from": "2016-01-01",
+                    "valid_to": null
+                },
+                {
+                    "percent": "6.00",
+                    "class": "SUPER_REDUCED",
+                    "valid_from": "2023-07-01",
+                    "valid_to": null
+                }
+            ]
+        },
+        "RO": {
+            "standard": [
+                {
+                    "percent": "20.00",
+                    "class": "STANDARD",
+                    "valid_from": "2016-01-01",
+                    "valid_to": "2017-01-01"
+                },
+                {
+                    "percent": "19.00",
+                    "class": "STANDARD",
+                    "valid_from": "2017-01-01",
+                    "valid_to": "2025-08-01"
+                },
+                {
+                    "percent": "21.00",
+                    "class": "STANDARD",
+                    "valid_from": "2025-08-01",
+                    "valid_to": null
+                }
+            ],
+            "reduced": [
+                {
+                    "percent": "11.00",
+                    "class": "REDUCED",
+                    "valid_from": "2025-08-01",
+                    "valid_to": null
+                },
+                {
+                    "percent": "5.00",
+                    "class": "REDUCED",
+                    "valid_from": "2016-01-01",
+                    "valid_to": "2025-08-01"
+                },
+                {
+                    "percent": "9.00",
+                    "class": "REDUCED",
+                    "valid_from": "2016-01-01",
+                    "valid_to": "2025-08-01"
+                }
+            ]
+        },
+        "SE": {
+            "standard": [
+                {
+                    "percent": "25.00",
+                    "class": "STANDARD",
+                    "valid_from": "2016-01-01",
+                    "valid_to": null
+                }
+            ],
+            "reduced": [
+                {
+                    "percent": "0.00",
+                    "class": "REDUCED",
+                    "valid_from": "2016-01-01",
+                    "valid_to": "2024-01-01"
+                },
+                {
+                    "percent": "12.00",
+                    "class": "REDUCED",
+                    "valid_from": "2016-01-01",
+                    "valid_to": null
+                },
+                {
+                    "percent": "6.00",
+                    "class": "REDUCED",
+                    "valid_from": "2016-01-01",
+                    "valid_to": null
+                }
+            ]
+        },
+        "SI": {
+            "standard": [
+                {
+                    "percent": "22.00",
+                    "class": "STANDARD",
+                    "valid_from": "2016-05-20",
+                    "valid_to": null
+                }
+            ],
+            "reduced": [
+                {
+                    "percent": "0.00",
+                    "class": "REDUCED",
+                    "valid_from": "2019-07-01",
+                    "valid_to": "2022-07-01"
+                },
+                {
+                    "percent": "5.00",
+                    "class": "REDUCED",
+                    "valid_from": "2020-01-01",
+                    "valid_to": null
+                },
+                {
+                    "percent": "9.50",
+                    "class": "REDUCED",
+                    "valid_from": "2016-05-20",
+                    "valid_to": null
+                }
+            ]
+        },
+        "SK": {
+            "standard": [
+                {
+                    "percent": "20.00",
+                    "class": "STANDARD",
+                    "valid_from": "2016-01-01",
+                    "valid_to": "2025-01-01"
+                },
+                {
+                    "percent": "23.00",
+                    "class": "STANDARD",
+                    "valid_from": "2025-01-01",
+                    "valid_to": null
+                }
+            ],
+            "reduced": [
+                {
+                    "percent": "10.00",
+                    "class": "REDUCED",
+                    "valid_from": "2016-01-01",
+                    "valid_to": "2025-01-01"
+                },
+                {
+                    "percent": "19.00",
+                    "class": "REDUCED",
+                    "valid_from": "2025-01-01",
+                    "valid_to": null
+                },
+                {
+                    "percent": "5.00",
+                    "class": "REDUCED",
+                    "valid_from": "2023-07-01",
+                    "valid_to": null
+                }
+            ]
+        }
+    },
+    "territorial_observed": {
+        "AT": [
+            {
+                "percent": "19.00",
+                "class": "REDUCED",
+                "qualifier": "Jungholz and Mittelberg"
+            }
+        ],
+        "DE": [
+            {
+                "percent": "7.00",
+                "class": "REDUCED",
+                "qualifier": "Import"
+            },
+            {
+                "percent": "19.00",
+                "class": "STANDARD",
+                "qualifier": "Import"
+            }
+        ],
+        "ES": [
+            {
+                "percent": "7.00",
+                "class": "STANDARD",
+                "qualifier": "Canary Islands"
+            }
+        ],
+        "FR": [
+            {
+                "percent": "1.05",
+                "class": "REDUCED",
+                "qualifier": "Guadeloupe"
+            },
+            {
+                "percent": "8.50",
+                "class": "REDUCED",
+                "qualifier": "Guadeloupe"
+            }
+        ]
+    }
+}

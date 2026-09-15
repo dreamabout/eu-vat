@@ -1,0 +1,249 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+namespace Kaikei\EuVat\Bin;
+
+use Kaikei\EuVat\Exception\EuVatException;
+use Kaikei\EuVat\Snapshot\SnapshotBuilder;
+use Kaikei\EuVat\Snapshot\SnapshotWriter;
+use Kaikei\EuVat\Snapshot\TerritoryCrossCheck;
+use Kaikei\EuVat\Tedb\CurlTransport;
+use Kaikei\EuVat\Tedb\FixtureTransport;
+use Kaikei\EuVat\Tedb\TedbClient;
+use Kaikei\EuVat\Territory\TerritoryTable;
+
+foreach ([__DIR__.'/../vendor/autoload.php', __DIR__.'/../../../autoload.php'] as $autoload) {
+    if (file_exists($autoload)) {
+        require $autoload;
+
+        break;
+    }
+}
+
+/**
+ * Regenerates data/rates.json from the Commission's TEDB service.
+ *
+ * Exit codes are the contract the nightly job depends on, so they are narrow and deliberate:
+ *
+ *   0  nothing changed (or the snapshot was written successfully)
+ *   1  rates changed — under --check this means "commit a new snapshot"
+ *   2  the run FAILED: TEDB unreachable, a fault, an unparseable response, an unrecognised
+ *      territory. Distinct from 1 because a failure must never be mistaken for a change, and a
+ *      job that only speaks when rates change is indistinguishable from a dead one.
+ */
+final class RegenerateRates
+{
+    private const EXIT_OK = 0;
+    private const EXIT_CHANGED = 1;
+    private const EXIT_FAILED = 2;
+
+    private const DEFAULT_WINDOW_YEARS = 12;
+
+    /**
+     * @param list<string> $argv
+     */
+    public function run(array $argv): int
+    {
+        $options = $this->parseOptions($argv);
+
+        if (isset($options['help'])) {
+            $this->usage();
+
+            return self::EXIT_OK;
+        }
+
+        $out = $options['out'] ?? __DIR__.'/../data/rates.json';
+        $territoriesPath = $options['territories'] ?? __DIR__.'/../data/territories.json';
+        $check = isset($options['check']);
+
+        try {
+            $from = new \DateTimeImmutable($options['from'] ?? sprintf('-%d years', self::DEFAULT_WINDOW_YEARS));
+            $to = new \DateTimeImmutable($options['to'] ?? 'today');
+
+            $client = new TedbClient(
+                isset($options['fixture'])
+                    ? new FixtureTransport($options['fixture'])
+                    : new CurlTransport(),
+            );
+
+            $this->line(sprintf(
+                'Retrieving VAT rates for %d member states, %s to %s%s',
+                \count(TedbClient::MEMBER_STATES),
+                $from->format('Y-m-d'),
+                $to->format('Y-m-d'),
+                isset($options['fixture']) ? sprintf(' (fixture: %s)', $options['fixture']) : '',
+            ));
+
+            $response = $client->retrieveVatRates($from, $to);
+
+            $territories = TerritoryTable::fromFile($territoriesPath);
+
+            // Shape alone cannot classify every comment: Austria's Jungholz row is a bare
+            // "Jungholz, Mittelberg", indistinguishable from a category note. Without this the
+            // territory's 19% publishes as an Austrian reduced band that does not exist.
+            $response = $response->classifyTerritories($territories);
+
+            $unrecognised = (new TerritoryCrossCheck($territories))->unrecognisedQualifiers($response);
+
+            if ([] !== $unrecognised) {
+                $this->line('');
+                $this->line('TEDB reports territorial rates this package does not know about:');
+                foreach ($unrecognised as $qualifier) {
+                    $this->line('  - '.$qualifier);
+                }
+                $this->line('');
+                $this->line('This table encodes law and cannot be synced. Check the VAT Directive,');
+                $this->line('add a cited entry to data/territories.json, and re-run.');
+
+                return self::EXIT_FAILED;
+            }
+
+            $snapshot = (new SnapshotBuilder())->build(
+                $response,
+                $from,
+                $to,
+                (new \DateTimeImmutable('now', new \DateTimeZone('UTC')))->format('Y-m-d\TH:i:s\Z'),
+            );
+
+            $writer = new SnapshotWriter();
+            $existing = $this->readExisting($out);
+            $changed = null === $existing || $writer->ratesDiffer($existing, $snapshot);
+
+            $this->line(sprintf(
+                'Parsed %d rate rows across %d countries.',
+                \count($response->all()),
+                \count($snapshot['countries']),
+            ));
+
+            if (!$changed) {
+                $this->line('No rate changes.');
+
+                return self::EXIT_OK;
+            }
+
+            if ($check) {
+                $this->line('RATES CHANGED — re-run without --check to write the snapshot.');
+                $this->reportChanges($existing, $snapshot);
+
+                return self::EXIT_CHANGED;
+            }
+
+            if (false === file_put_contents($out, $writer->encode($snapshot))) {
+                $this->line(sprintf('Could not write "%s".', $out));
+
+                return self::EXIT_FAILED;
+            }
+
+            $this->line(sprintf('Wrote %s', $out));
+            $this->reportChanges($existing, $snapshot);
+
+            return null === $existing ? self::EXIT_OK : self::EXIT_CHANGED;
+        } catch (EuVatException|\JsonException|\RuntimeException $e) {
+            $this->line('FAILED: '.$e->getMessage());
+
+            return self::EXIT_FAILED;
+        }
+    }
+
+    /**
+     * Names which countries moved, so the commit message and the Slack alert can say something
+     * more useful than "the file changed".
+     *
+     * @param array<string, mixed>|null $existing
+     * @param array<string, mixed>      $snapshot
+     */
+    private function reportChanges(?array $existing, array $snapshot): void
+    {
+        if (null === $existing) {
+            $this->line('First snapshot — nothing to compare against.');
+
+            return;
+        }
+
+        /** @var array<string, mixed> $before */
+        $before = $existing['countries'] ?? [];
+        /** @var array<string, mixed> $after */
+        $after = $snapshot['countries'] ?? [];
+
+        foreach ($after as $country => $bands) {
+            $was = json_encode($before[$country] ?? null);
+            $now = json_encode($bands);
+
+            if ($was !== $now) {
+                $this->line(sprintf('  changed: %s', $country));
+            }
+        }
+
+        foreach (array_keys($before) as $country) {
+            if (!isset($after[$country])) {
+                $this->line(sprintf('  removed: %s', $country));
+            }
+        }
+    }
+
+    /**
+     * @return array<string, mixed>|null
+     */
+    private function readExisting(string $path): ?array
+    {
+        if (!is_file($path)) {
+            return null;
+        }
+
+        $raw = file_get_contents($path);
+        if (false === $raw || '' === trim($raw)) {
+            return null;
+        }
+
+        /** @var array<string, mixed> $decoded */
+        $decoded = json_decode($raw, true, 512, \JSON_THROW_ON_ERROR);
+
+        return $decoded;
+    }
+
+    /**
+     * @param list<string> $argv
+     *
+     * @return array<string, string>
+     */
+    private function parseOptions(array $argv): array
+    {
+        $options = [];
+        foreach (\array_slice($argv, 1) as $argument) {
+            if (!str_starts_with($argument, '--')) {
+                continue;
+            }
+
+            $pair = explode('=', substr($argument, 2), 2);
+            $options[$pair[0]] = $pair[1] ?? '';
+        }
+
+        return $options;
+    }
+
+    private function usage(): void
+    {
+        $this->line(<<<'TXT'
+            Usage: bin/regenerate-rates [options]
+
+              --from=YYYY-MM-DD   Start of the window (default: 12 years ago)
+              --to=YYYY-MM-DD     End of the window (default: today)
+              --out=PATH          Snapshot to write (default: data/rates.json)
+              --territories=PATH  Territory table (default: data/territories.json)
+              --check             Write nothing; exit 1 if the rates changed
+              --fixture=PATH      Replay a committed response instead of calling TEDB
+              --help              This message
+
+            Exit codes: 0 unchanged, 1 rates changed, 2 failed.
+            TXT);
+    }
+
+    private function line(string $message): void
+    {
+        fwrite(\STDOUT, $message."\n");
+    }
+}
+
+exit((new RegenerateRates())->run($argv));

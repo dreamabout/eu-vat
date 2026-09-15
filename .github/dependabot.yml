@@ -1,0 +1,13 @@
+# Pinned action SHAs stop being a security control the moment they stop being updated —
+# an unpatched pin is just an old version. Dependabot refreshes them deliberately, as PRs.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+
+  - package-ecosystem: composer
+    directory: /
+    schedule:
+      interval: weekly

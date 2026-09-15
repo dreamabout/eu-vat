@@ -160,8 +160,8 @@ final class IntervalDeriver
      * grid is open-ended, because TEDB reporting a rate at the newest date it knows about means
      * the rate is still in force, not that it expires there.
      *
-     * @param list<string>                $grid
-     * @param callable(string): ?string   $valueAt
+     * @param list<string>              $grid
+     * @param callable(string): ?string $valueAt
      *
      * @return list<array{value: string, from: string, to: ?string}>
      */

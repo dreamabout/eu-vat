@@ -26,10 +26,7 @@ final class CalendarDate
         $trimmed = trim($value);
 
         if (1 !== preg_match(self::PATTERN, $trimmed, $matches)) {
-            throw new \InvalidArgumentException(sprintf(
-                'Expected a TEDB date like "2024-09-01" or "2024-09-01+02:00", got "%s".',
-                $value,
-            ));
+            throw new \InvalidArgumentException(sprintf('Expected a TEDB date like "2024-09-01" or "2024-09-01+02:00", got "%s".', $value));
         }
 
         $date = \DateTimeImmutable::createFromFormat(

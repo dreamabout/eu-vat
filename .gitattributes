@@ -1,0 +1,4 @@
+# TEDB fixtures are byte-exact captures of real service responses. Git must not
+# normalise their line endings: the point of committing them verbatim is that the
+# parser is tested against exactly what the service returned.
+tests/fixtures/*.xml -text

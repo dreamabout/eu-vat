@@ -1,9 +1,9 @@
 {
     "schema": 1,
-    "generated_at": "2026-09-15T20:59:57Z",
+    "generated_at": "2026-10-10T10:02:17Z",
     "window": {
-        "from": "2015-01-01",
-        "to": "2026-09-15"
+        "from": "2014-10-10",
+        "to": "2026-10-10"
     },
     "countries": {
         "AT": {
@@ -210,6 +210,18 @@
                     "percent": "19.00",
                     "class": "STANDARD",
                     "valid_from": "2016-01-01",
+                    "valid_to": "2020-07-01"
+                },
+                {
+                    "percent": "16.00",
+                    "class": "STANDARD",
+                    "valid_from": "2020-07-01",
+                    "valid_to": "2021-01-01"
+                },
+                {
+                    "percent": "19.00",
+                    "class": "STANDARD",
+                    "valid_from": "2021-01-01",
                     "valid_to": null
                 }
             ],
@@ -218,6 +230,12 @@
                     "percent": "0.00",
                     "class": "REDUCED",
                     "valid_from": "2019-07-01",
+                    "valid_to": "2020-07-01"
+                },
+                {
+                    "percent": "0.00",
+                    "class": "REDUCED",
+                    "valid_from": "2021-01-01",
                     "valid_to": "2022-07-01"
                 },
                 {
@@ -225,6 +243,12 @@
                     "class": "REDUCED",
                     "valid_from": "2023-01-01",
                     "valid_to": "2023-07-01"
+                },
+                {
+                    "percent": "5.00",
+                    "class": "REDUCED",
+                    "valid_from": "2020-07-01",
+                    "valid_to": "2021-01-01"
                 },
                 {
                     "percent": "7.00",

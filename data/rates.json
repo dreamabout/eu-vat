@@ -1,9 +1,9 @@
 {
     "schema": 1,
-    "generated_at": "2026-10-10T10:02:17Z",
+    "generated_at": "2026-10-24T08:19:05Z",
     "window": {
-        "from": "2014-10-10",
-        "to": "2026-10-10"
+        "from": "2014-10-24",
+        "to": "2026-10-24"
     },
     "countries": {
         "AT": {
@@ -247,7 +247,7 @@
                 {
                     "percent": "5.00",
                     "class": "REDUCED",
-                    "valid_from": "2020-07-01",
+                    "valid_from": "2020-01-01",
                     "valid_to": "2021-01-01"
                 },
                 {
